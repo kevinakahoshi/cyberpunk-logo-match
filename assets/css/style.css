@@ -1,6 +1,9 @@
 body {
   margin: 0px;
   font-family: arial;
+  background: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/lfz-background.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 * {
@@ -8,12 +11,12 @@ body {
 }
 
 header {
-  padding: 20px;
+  padding: 40px;
   border: 1px dotted #000;
 }
 
 .mainContainer {
-  height: calc(100vh - 79px);
+  height: calc(100vh - 119px);
   font-size: 0px;
   display: flex;
 }
@@ -32,6 +35,7 @@ header {
 
 aside {
   width: 25%;
+  overflow: auto;
 }
 
 main {
@@ -39,9 +43,12 @@ main {
 }
 
 .stats {
-  padding: 20px;
-  border: 1px dotted #000;
+  padding: 40px;
   margin-bottom: 20px;
+  background: #4D6995;
+  color: #fff;
+  box-shadow: 0px 2px 5px rgba(0,0,0,.5);
+  border-radius: 5px;
 }
 
 .row {
@@ -57,6 +64,12 @@ main {
   margin-bottom: 20px;
 }
 
+.background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .card {
   width: calc(16.6667% - 20px);
   margin: 0px;
@@ -64,12 +77,57 @@ main {
   position: relative;
 }
 
+.card:hover .cardBack {
+  display: none;
+}
+
 .cardBack {
-  background-image: url('assets/images/lfz-card.jpg');
-  background-size: contain;
-  background-position: center;
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/lfz-card.jpg');
   position: absolute;
   height: 100%;
+  width: 100%;
+}
+
+.cardFront {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.card1 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/react-logo.png');
+}
+
+.card3 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/css-logo.png');
+}
+
+.card5 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/html-logo.png');
+}
+
+.card7 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/js-logo.png');
+}
+
+.card9 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/mysql-logo.jpg');
+}
+
+.card11 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/node-logo.png');
+}
+
+.card13 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/php-logo.jpeg');
+}
+
+.card15 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/docker-logo.jpg');
+}
+
+.card17 .cardFront {
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/gitHub-logo.png');
 }
 
 .cardFront {
@@ -80,10 +138,13 @@ main {
 h1 {
   text-align: center;
   margin: auto;
+  color: #fff;
 }
 
 h3 {
   font-size: 1.2rem;
+  text-align: center;
+  color: #fff;
 }
 
 h6 {
