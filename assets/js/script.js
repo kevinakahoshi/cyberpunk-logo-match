@@ -8,8 +8,8 @@ var secondCardBack = null;
 var matches = null;
 
 function initializeApp() {
-  $('.card').on('click', handleCardClick);
   allCards = $('.card');
+  allCards.on('click', handleCardClick);
 }
 
 function handleCardClick(event) {
@@ -29,13 +29,13 @@ function handleCardClick(event) {
       firstCardClicked = null;
       secondCardClicked = null;
     } else {
-      allCards.attr('disabled', 'true');
+      allCards.unbind('click');
       setTimeout(function() {
         firstCardClicked.removeClass('hidden');
         secondCardClicked.removeClass('hidden');
         firstCardClicked = null;
         secondCardClicked = null;
-        allCards.removeAttr('disabled');
+        allCards.on('click', handleCardClick);
         }, 1500);
     }
   }
