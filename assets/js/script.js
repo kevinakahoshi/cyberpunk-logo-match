@@ -6,11 +6,14 @@ var secondCardClicked = null;
 var firstCardBack = null;
 var secondCardBack = null;
 var matches = null;
-var max_matches = 2;
+var attempts = 0;
+var games_played = null;
+var max_matches = 9;
 
 function initializeApp() {
   allCards = $('.card');
   allCards.on('click', handleCardClick);
+  games_played++
 }
 
 function handleCardClick(event) {
@@ -20,17 +23,17 @@ function handleCardClick(event) {
   if (firstCardClicked === null) {
     firstCardClicked = theCardBack;
     firstCardBack = $(event.currentTarget).find('.cardFront').css('background-image');
-  }
-  else {
+  } else {
+    attempts++
     secondCardClicked = theCardBack;
     secondCardBack = $(event.currentTarget).find('.cardFront').css('background-image');
     if (firstCardBack === secondCardBack) {
-      console.log('Cards Match');
       matches++
       firstCardClicked = null;
       secondCardClicked = null;
       if (matches === max_matches) {
         $('.modalContainer').removeClass('hidden');
+        games_played++
       }
     } else {
       // Encountered bug when clicking on other choices immediately after making wrong selection.  Unbinding the click handler temporarily fixes this.
@@ -41,7 +44,20 @@ function handleCardClick(event) {
         firstCardClicked = null;
         secondCardClicked = null;
         allCards.on('click', handleCardClick);
-        }, 1500);
+      }, 1500);
     }
+    displayStats();
   }
+}
+
+function calculateAccuracy() {
+  var accuracy = matches / attempts;
+  return accuracy;
+}
+
+function displayStats() {
+  var displayAccuracy = calculateAccuracy();
+  $('.dynamicGamesPlayed h6').text(games_played);
+  $('.dynamicAttempts h6').text(attempts);
+  $('.dynamicAccuracy h6').text(displayAccuracy * 100 + '%');
 }
