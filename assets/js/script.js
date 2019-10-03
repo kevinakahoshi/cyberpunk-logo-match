@@ -1,8 +1,9 @@
 $(document).ready(initializeApp);
 
-var allCards = null;
 var firstCardClicked = null;
 var secondCardClicked = null;
+var firstCardFront = null;
+var secondCardFront = null;
 var firstCardBack = null;
 var secondCardBack = null;
 var matches = null;
@@ -12,44 +13,60 @@ var cardBackClass = $('.cardBack');
 var games_played = 0;
 var max_matches = 9;
 
+var cardObject = {
+  'allCards' : $('.card')
+}
+
 function initializeApp() {
   var resetButton = $('.resetButton');
-  allCards = $('.card');
-  allCards.on('click', handleCardClick);
+  cardObject.allCards.on('click', handleCardClick);
   resetButton.on('click', resetStats);
 }
 
 function handleCardClick(event) {
-  var theCardBack = $(event.currentTarget.lastElementChild);
-  theCardBack.addClass('hidden');
+  var theCard = $(event.currentTarget);
 
   if (firstCardClicked === null) {
-    firstCardClicked = theCardBack;
-    firstCardBack = $(event.currentTarget).find('.cardFront').css('background-image');
+    firstCardClicked = theCard;
+    firstCardFront = firstCardClicked.find('.cardFront').css('background-image');
+    firstCardBack = theCard.find('.cardBack');
+    firstCardBack.addClass('hidden');
   } else {
-    attempts++
-    secondCardClicked = theCardBack;
-    secondCardBack = $(event.currentTarget).find('.cardFront').css('background-image');
-    if (firstCardBack === secondCardBack) {
-      matches++
-      firstCardClicked = null;
+
+    secondCardClicked = theCard;
+    console.log(attempts);
+
+    if (secondCardClicked.is(firstCardClicked)) {
       secondCardClicked = null;
-      if (matches === max_matches) {
-        modalContainer.removeClass('hidden');
-        games_played++
-      }
+      displayStats();
     } else {
-      // Encountered bug when clicking on other choices immediately after making wrong selection.  Unbinding the click handler temporarily fixes this.
-      allCards.unbind('click');
-      setTimeout(function() {
-        firstCardClicked.removeClass('hidden');
-        secondCardClicked.removeClass('hidden');
+      attempts++;
+      secondCardFront = $(event.currentTarget).find('.cardFront').css('background-image');
+      secondCardBack = theCard.find('.cardBack');
+      secondCardBack.addClass('hidden');
+
+      if (firstCardFront === secondCardFront) {
+        matches++;
         firstCardClicked = null;
         secondCardClicked = null;
-        allCards.on('click', handleCardClick);
-      }, 1500);
+        if (matches === max_matches) {
+          modalContainer.removeClass('hidden');
+          games_played++;
+        }
+      } else {
+        // Encountered bug when clicking on other choices immediately after making wrong selection.  Unbinding the click handler temporarily fixes this.
+        cardObject.allCards.unbind('click');
+        attempts++;
+        setTimeout(function() {
+          firstCardBack.removeClass('hidden');
+          secondCardBack.removeClass('hidden');
+          firstCardClicked = null;
+          secondCardClicked = null;
+          cardObject.allCards.on('click', handleCardClick);
+        }, 1500);
+      }
+      displayStats();
     }
-    displayStats();
   }
 }
 
@@ -57,7 +74,7 @@ function calculateAccuracy() {
   var accuracy = matches / attempts;
   if (matches === null || attempts === null) {
     attempts = 0;
-    accuracy = 0;
+    accuracy = 0.00;
   }
   return accuracy;
 }
@@ -66,7 +83,7 @@ function displayStats() {
   var displayAccuracy = calculateAccuracy();
   $('.dynamicGamesPlayed h6').text(games_played);
   $('.dynamicAttempts h6').text(attempts);
-  $('.dynamicAccuracy h6').text(displayAccuracy * 100 + '%');
+  $('.dynamicAccuracy h6').text((displayAccuracy * 100).toFixed(2) + '%');
 }
 
 function resetStats() {
