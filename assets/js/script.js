@@ -29,7 +29,7 @@ function initializeApp() {
 
 function handleCardClick(event) {
   var theCard = $(event.currentTarget);
-
+  // debugger;
   if (firstCardClicked === null) {
     firstCardClicked = theCard;
     firstCardFront = firstCardClicked.find('.cardFront').css('background-image');
@@ -46,10 +46,11 @@ function handleCardClick(event) {
       secondCardBack.addClass('hidden');
 
       if (firstCardFront === secondCardFront) {
+        firstCardClicked.addClass('noMoreClicks');
+        secondCardClicked.addClass('noMoreClicks');
         allGameStats.matches++;
         firstCardClicked = null;
         secondCardClicked = null;
-
         if (allGameStats.matches === max_matches) {
           modalContainer.removeClass('hidden');
           games_played++;
@@ -84,11 +85,13 @@ function displayStats() {
 }
 
 function resetStats() {
+  cardObject.allCards.removeClass('noMoreClicks');
   allGameStats.matches = null;
   attempts = null;
   games_played++;
   cardBackClass.removeClass('hidden');
   modalContainer.addClass('hidden');
+
   displayStats();
   $('.dynamicAttempts h6').text('0');
   $('.dynamicAccuracy h6').text('0.00%');
