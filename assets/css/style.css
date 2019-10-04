@@ -12,7 +12,6 @@ body {
 
 header {
   padding: 40px;
-  /* border: 1px dotted #000; */
 }
 
 .mainContainer {
@@ -180,11 +179,4 @@ h6 {
 
 .noMoreClicks {
   pointer-events: none;
-}
-
-.testCard {
-  height: 100px;
-  width: 100px;
-  background: #ff0000;
-  margin: 20px;
 }
