@@ -24,7 +24,6 @@ header {
 .containerContents {
   height: 100%;
   display: inline-block;
-  /* border: 1px dotted #000; */
   padding: 20px;
   font-size: initial
 }
@@ -57,13 +56,14 @@ main {
   height: calc(33.3333% - 13.3333px);
   font-size: 0px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
 
-.row:nth-child(1), .row:nth-child(2) {
+/* .row:nth-child(1), .row:nth-child(2) {
   margin-bottom: 20px;
-}
+} */
 
 .background {
   background-size: cover;
@@ -73,8 +73,8 @@ main {
 
 .card {
   width: calc(16.6667% - 20px);
-  margin: 0px;
   padding: 0px;
+  margin-bottom: 20px;
   position: relative;
   transition: .3s all;
 }
