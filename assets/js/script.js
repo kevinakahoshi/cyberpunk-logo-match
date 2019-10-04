@@ -53,6 +53,7 @@ function handleCardClick(event) {
 
         if (allGameStats.matches === max_matches) {
           modalContainer.removeClass('hidden');
+          games_played++;
         }
 
       } else {
