@@ -6,7 +6,7 @@ var firstCardFront = null;
 var secondCardFront = null;
 var firstCardBack = null;
 var secondCardBack = null;
-var matches = null;
+// var matches = null;
 var attempts = null;
 var modalContainer = $('.modalContainer');
 var cardBackClass = $('.cardBack');
@@ -15,6 +15,10 @@ var max_matches = 9;
 
 var cardObject = {
   'allCards' : $('.card')
+}
+
+var allGameStats = {
+  'matches' : null
 }
 
 function initializeApp() {
@@ -32,10 +36,7 @@ function handleCardClick(event) {
     firstCardBack = theCard.find('.cardBack');
     firstCardBack.addClass('hidden');
   } else {
-
     secondCardClicked = theCard;
-    console.log(attempts);
-
     if (secondCardClicked.is(firstCardClicked)) {
       secondCardClicked = null;
       displayStats();
@@ -46,17 +47,17 @@ function handleCardClick(event) {
       secondCardBack.addClass('hidden');
 
       if (firstCardFront === secondCardFront) {
-        matches++;
+        allGameStats.matches++;
         firstCardClicked = null;
         secondCardClicked = null;
-        if (matches === max_matches) {
+
+        if (allGameStats.matches === max_matches) {
           modalContainer.removeClass('hidden');
-          games_played++;
         }
+
       } else {
-        // Encountered bug when clicking on other choices immediately after making wrong selection.  Unbinding the click handler temporarily fixes this.
+        // Removes option to click on other cards before the timeout is up
         cardObject.allCards.unbind('click');
-        attempts++;
         setTimeout(function() {
           firstCardBack.removeClass('hidden');
           secondCardBack.removeClass('hidden');
@@ -71,11 +72,7 @@ function handleCardClick(event) {
 }
 
 function calculateAccuracy() {
-  var accuracy = matches / attempts;
-  if (matches === null || attempts === null) {
-    attempts = 0;
-    accuracy = 0.00;
-  }
+  var accuracy = allGameStats.matches / attempts;
   return accuracy;
 }
 
@@ -87,10 +84,12 @@ function displayStats() {
 }
 
 function resetStats() {
-  matches = null;
+  allGameStats.matches = null;
   attempts = null;
   games_played++;
   cardBackClass.removeClass('hidden');
   modalContainer.addClass('hidden');
   displayStats();
+  $('.dynamicAttempts h6').text('0');
+  $('.dynamicAccuracy h6').text('0.00%');
 }

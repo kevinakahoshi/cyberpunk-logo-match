@@ -135,7 +135,7 @@ main {
   padding: 20px;
   position: absolute;
   display: flex;
-  background: rgba(0, 0, 0, .4);
+  background: rgba(0, 0, 0, .75);
   transition: .3s all;
 }
 
