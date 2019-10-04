@@ -57,13 +57,11 @@ main {
   font-size: 0px;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
 }
-
-/* .row:nth-child(1), .row:nth-child(2) {
-  margin-bottom: 20px;
-} */
 
 .background {
   background-size: cover;
@@ -182,4 +180,11 @@ h6 {
 
 .noMoreClicks {
   pointer-events: none;
+}
+
+.testCard {
+  height: 100px;
+  width: 100px;
+  background: #ff0000;
+  margin: 20px;
 }
