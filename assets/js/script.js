@@ -39,7 +39,6 @@ function handleCardClick(event) {
     secondCardClicked = theCard;
     if (secondCardClicked.is(firstCardClicked)) {
       secondCardClicked = null;
-      displayStats();
     } else {
       attempts++;
       secondCardFront = $(event.currentTarget).find('.cardFront').css('background-image');
