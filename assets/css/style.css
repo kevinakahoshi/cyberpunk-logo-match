@@ -89,7 +89,7 @@ main {
   width: 100%;
 }
 
-.card1 .cardFront, .card2 .cardFront {
+/* .card1 .cardFront, .card2 .cardFront {
   background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/react-logo.png');
 }
 
@@ -123,7 +123,7 @@ main {
 
 .card17 .cardFront, .card18 .cardFront {
   background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/images/gitHub-logo.png');
-}
+} */
 
 .modalContainer {
   width: 100%;

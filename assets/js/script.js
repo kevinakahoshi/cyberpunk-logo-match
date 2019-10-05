@@ -45,12 +45,11 @@ var backgroundArray = [
   '/Users/kevinakahoshi/lfz/memory_match/assets/images/gitHub-logo.png'
 ];
 
-var backgroundArrayCopy = [];
+var backgroundArrayCopy = shuffleArray(backgroundArray);
 
 function initializeApp() {
   modalObject.resetButton.on('click', resetStats);
   generateCards();
-  createArrayCopy();
 }
 
 function handleCardClick(event) {
@@ -114,38 +113,52 @@ function resetStats() {
   cardObject.allCards.removeClass('noMoreClicks');
   cardObject.cardBackClass.removeClass('hidden');
   modalObject.modalContainer.addClass('hidden');
-
   displayStats();
   statsArea.dynamicAttempts.text('0');
   statsArea.dynamicAccuracy.text('0.00%');
+  shuffleArray(backgroundArray);
+  destroyCards();
+  generateCards();
 }
 
 // Function to create cards dynamically.  Assigns all appropriate classes.
 function generateCards() {
-  createArrayCopy();
-
   for (var numberOfCardsIndex = 0; numberOfCardsIndex < backgroundArray.length; numberOfCardsIndex++) {
     var generateParentCardDiv = $('<div>');
     var generateCardBack = $('<div>');
     var generateCardFront = $('<div>');
     var cardIndex = numberOfCardsIndex + 1;
 
-    generateParentCardDiv.addClass('card containerContents').addClass('card' + cardIndex);
+    generateParentCardDiv.addClass('card containerContents card' + cardIndex);
     generateCardBack.addClass('cardBack background');
     generateCardFront.addClass('cardFront background');
 
     $('.row').append(generateParentCardDiv);
-    $(generateParentCardDiv).append(generateCardFront);
-    $(generateParentCardDiv).append(generateCardBack);
+    generateParentCardDiv.append(generateCardFront);
+    generateParentCardDiv.append(generateCardBack);
+    generateCardFront.css('background-image', 'url(' + backgroundArrayCopy[numberOfCardsIndex] + ')');
   }
   cardObject.allCards = $('.card');
   cardObject.cardBackClass = $('.cardBack');
   cardObject.allCards.on('click', handleCardClick);
 }
 
-// Makes a copy of the background image array to prevent mutating the original version
-function createArrayCopy() {
-  for (var backgroundArrayCopyIndex = 0; backgroundArrayCopyIndex < backgroundArray.length; backgroundArrayCopyIndex++) {
-    backgroundArrayCopy.push(backgroundArray[backgroundArrayCopyIndex]);
+function shuffleArray(backgroundArray) {
+  var currentIndex = backgroundArray.length;
+  var temporaryValue = null;
+  var randomIndex = null;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = backgroundArray[currentIndex];
+    backgroundArray[currentIndex] = backgroundArray[randomIndex];
+    backgroundArray[randomIndex] = temporaryValue;
   }
+  return backgroundArray;
+}
+
+function destroyCards() {
+  $('.row').html('');
 }
