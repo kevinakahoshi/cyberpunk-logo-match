@@ -22,27 +22,69 @@ var statsArea = {
 
 var modalObject = {
   'modalContainer' : $('.modalContainer'),
+  'enterModalContainer' : $('.enterModalContainer'),
+  'startButton' : $('.startButton'),
   'resetButton' : $('.resetButton')
 }
 
 var backgroundArray = [
-  'react',
-  'css',
-  'html',
-  'js',
-  'mysql',
-  'node',
-  'php',
-  'docker',
-  'github',
+  'allure',
+  'alphabet',
+  'amazon',
+  'blackMesa',
+  'disney',
+  'gila',
+  'mastercard',
+  'mcDonalds',
+  'zhi',
 ];
+
+// var audioObject = {
+//   'backgroundAudio' : {
+//     'type': new Audio(),
+//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/212025_71257-lq.mp3',
+//     'loop' : true
+//   },
+//   'selection' : {
+//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Select_22.wav'
+//   },
+//   'correct' : {
+//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Notification_03.wav'
+//   },
+//   'incorrect' : {
+//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav'
+//   }
+// }
+
+var backgroundAudio = new Audio();
+backgroundAudio.volume = .7;
+backgroundAudio.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/212025_71257-lq.mp3';
+backgroundAudio.loop = true;
+
+var clickSounds = new Audio();
+clickSounds.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
+
+var correctSound = new Audio();
+correctSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Notification_03.wav';
+
+var incorrectSound = new Audio();
+incorrectSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_30.wav';
+
+var selectionSound = new Audio();
+selectionSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
 
 function initializeApp() {
   modalObject.resetButton.on('click', resetStats);
+  modalObject.startButton.on('click', startGame);
+}
 
-  generateCards();
+function startGame() {
+  cardObject.row.fadeIn(3000, generateCards);
+  backgroundAudio.play();
+  modalObject.enterModalContainer.addClass('hidden');
+  $('.allBodyContent').removeClass('hidden blur');
 }
 
 function handleCardClick(event) {
@@ -53,6 +95,7 @@ function handleCardClick(event) {
     cardObject.firstCardFront = cardObject.firstCardParent.find('.cardFront').css('background-image');
     cardObject.firstCardBack = theCard.find('.cardBack');
     cardObject.firstCardBack.addClass('hidden');
+    selectionSound.play();
   } else {
     cardObject.secondCardParent = theCard;
     // Prevents users from clicking the same card twice and breaking the game.
@@ -64,6 +107,7 @@ function handleCardClick(event) {
       cardObject.secondCardBack = theCard.find('.cardBack');
       cardObject.secondCardBack.addClass('hidden');
       if (cardObject.firstCardFront === cardObject.secondCardFront) {
+        correctSound.play();
         // Removes pointer events for cards that are matches, preventing users from clicking on the same card multiple times to break the game or cheat.
         cardObject.firstCardParent.addClass('noMoreClicks');
         cardObject.secondCardParent.addClass('noMoreClicks');
@@ -77,6 +121,7 @@ function handleCardClick(event) {
       } else {
         // Removes option to click on other cards before the timeout is up
         cardObject.allCards.unbind('click');
+        incorrectSound.play();
         setTimeout(function() {
           cardObject.firstCardBack.removeClass('hidden');
           cardObject.secondCardBack.removeClass('hidden');

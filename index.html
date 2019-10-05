@@ -6,41 +6,57 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Memory Match</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="/Users/kevinakahoshi/lfz/memory_match/assets/js/script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>LFZ Memory Match</h1>
-    </header>
-    <div class="mainContainer">
-      <aside class="containerContents">
-        <h3>Stats</h3>
-        <div class="stats">
-          <h6>Games Played</h6>
-        </div>
-        <div class="stats dynamicGamesPlayed">
-          <h6>0</h6>
-        </div>
-        <div class="stats">
-          <h6>Attempts</h6>
-        </div>
-        <div class="stats dynamicAttempts">
-          <h6>0</h6>
-        </div>
-        <div class="stats">
-          <h6>Accuracy</h6>
-        </div>
-        <div class="stats dynamicAccuracy">
-          <h6>0.00%</h6>
-        </div>
-      </aside>
-      <main class="containerContents">
-        <div class="container">
-          <div class="row">
+    <div class="allBodyContent hidden blur">
+      <header>
+        <h1>Militech Heavy Industries</h1>
+        <h2>Always watching.  All the time.</h2>
+      </header>
+      <div class="mainContainer">
+        <aside class="containerContents">
+          <h3>Stats</h3>
+          <div class="statsBox">
+            <div class="stats">
+              <h6>Games Played</h6>
+            </div>
+            <div class="stats dynamicGamesPlayed">
+              <h6>0</h6>
+            </div>
           </div>
-        </div>
-      </main>
+          <div class="statsBox">
+            <div class="stats">
+              <h6>Attempts</h6>
+            </div>
+            <div class="stats dynamicAttempts">
+              <h6>0</h6>
+            </div>
+          </div>
+          <div class="statsBox">
+            <div class="stats">
+              <h6>Accuracy</h6>
+            </div>
+            <div class="stats dynamicAccuracy">
+              <h6>0.00%</h6>
+            </div>
+          </div>
+        </aside>
+        <main class="containerContents">
+          <div class="container">
+            <div class="row">
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <div class="enterModalContainer">
+      <div class="modalBox">
+        <h1>Enter your name</h1>
+        <button class="startButton">Start Game</button>
+      </div>
     </div>
     <div class="modalContainer hidden">
       <div class="modalBox">
@@ -48,6 +64,8 @@
         <button class="resetButton">Reset Game</button>
       </div>
     </div>
-    <video src=""></video>
+    <div class="videoContainer blur">
+      <video class="videoBackground" autoplay loop muted src="/Users/kevinakahoshi/lfz/memory_match/assets/media/video/Hud_-_22449.mp4" type="video/mp4"></video>
+    </div>
   </body>
 </html>
