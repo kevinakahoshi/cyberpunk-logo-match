@@ -6,7 +6,8 @@ var cardObject = {
   'firstCardFront' : null,
   'secondCardFront' : null,
   'firstCardBack' : null,
-  'secondCardBack' : null
+  'secondCardBack' : null,
+  'row' : $('.row')
 }
 
 var statsArea = {
@@ -25,35 +26,28 @@ var modalObject = {
 }
 
 var backgroundArray = [
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/react-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/react-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/css-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/css-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/html-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/html-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/js-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/js-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/mysql-logo.jpg',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/mysql-logo.jpg',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/node-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/node-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/php-logo.jpeg',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/php-logo.jpeg',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/docker-logo.jpg',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/docker-logo.jpg',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/gitHub-logo.png',
-  '/Users/kevinakahoshi/lfz/memory_match/assets/images/gitHub-logo.png'
+  'react',
+  'css',
+  'html',
+  'js',
+  'mysql',
+  'node',
+  'php',
+  'docker',
+  'github',
 ];
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
 
 function initializeApp() {
   modalObject.resetButton.on('click', resetStats);
+
   generateCards();
 }
 
 function handleCardClick(event) {
   var theCard = $(event.currentTarget);
+
   if (cardObject.firstCardParent === null) {
     cardObject.firstCardParent = theCard;
     cardObject.firstCardFront = cardObject.firstCardParent.find('.cardFront').css('background-image');
@@ -61,6 +55,7 @@ function handleCardClick(event) {
     cardObject.firstCardBack.addClass('hidden');
   } else {
     cardObject.secondCardParent = theCard;
+    // Prevents users from clicking the same card twice and breaking the game.
     if (cardObject.secondCardParent.is(cardObject.firstCardParent)) {
       cardObject.secondCardParent = null;
     } else {
@@ -69,6 +64,7 @@ function handleCardClick(event) {
       cardObject.secondCardBack = theCard.find('.cardBack');
       cardObject.secondCardBack.addClass('hidden');
       if (cardObject.firstCardFront === cardObject.secondCardFront) {
+        // Removes pointer events for cards that are matches, preventing users from clicking on the same card multiple times to break the game or cheat.
         cardObject.firstCardParent.addClass('noMoreClicks');
         cardObject.secondCardParent.addClass('noMoreClicks');
         statsArea.matches++;
@@ -96,16 +92,19 @@ function handleCardClick(event) {
 
 function calculateAccuracy() {
   var accuracy = statsArea.matches / statsArea.attempts;
+
   return accuracy;
 }
 
 function displayStats() {
   var displayAccuracy = calculateAccuracy();
+
   statsArea.dynamicGamesPlayed.text(statsArea.games_played);
   statsArea.dynamicAttempts.text(statsArea.attempts);
   statsArea.dynamicAccuracy.text((displayAccuracy * 100).toFixed(2) + '%');
 }
 
+// Resets game/stats
 function resetStats() {
   statsArea.matches = null;
   statsArea.attempts = null;
@@ -113,52 +112,64 @@ function resetStats() {
   cardObject.allCards.removeClass('noMoreClicks');
   cardObject.cardBackClass.removeClass('hidden');
   modalObject.modalContainer.addClass('hidden');
+
   displayStats();
+
   statsArea.dynamicAttempts.text('0');
   statsArea.dynamicAccuracy.text('0.00%');
+
   shuffleArray(backgroundArray);
   destroyCards();
   generateCards();
 }
 
-// Function to create cards dynamically.  Assigns all appropriate classes.
+// Creates cards dynamically based on the length of the array of images.  Assigns all appropriate CSS classes.
 function generateCards() {
-  for (var numberOfCardsIndex = 0; numberOfCardsIndex < backgroundArray.length; numberOfCardsIndex++) {
+  for (var numberOfCardsIndex = 0; numberOfCardsIndex < backgroundArrayCopy.length; numberOfCardsIndex++) {
     var generateParentCardDiv = $('<div>');
     var generateCardBack = $('<div>');
     var generateCardFront = $('<div>');
-    var cardIndex = numberOfCardsIndex + 1;
 
-    generateParentCardDiv.addClass('card containerContents card' + cardIndex);
+    generateParentCardDiv.addClass('card containerContents');
     generateCardBack.addClass('cardBack background');
-    generateCardFront.addClass('cardFront background');
+    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]);
 
-    $('.row').append(generateParentCardDiv);
+    cardObject.row.append(generateParentCardDiv);
     generateParentCardDiv.append(generateCardFront);
     generateParentCardDiv.append(generateCardBack);
-    generateCardFront.css('background-image', 'url(' + backgroundArrayCopy[numberOfCardsIndex] + ')');
   }
+
   cardObject.allCards = $('.card');
   cardObject.cardBackClass = $('.cardBack');
   cardObject.allCards.on('click', handleCardClick);
 }
 
+// Function takes in array, doubles the values within the array, and returns a shuffled version.
 function shuffleArray(backgroundArray) {
-  var currentIndex = backgroundArray.length;
-  var temporaryValue = null;
+  var doubledArray = [];
+
+  for (var doubleArrayLengthIndex = 0; doubleArrayLengthIndex < backgroundArray.length; doubleArrayLengthIndex++) {
+    doubledArray.push(backgroundArray[doubleArrayLengthIndex]);
+    doubledArray.push(backgroundArray[doubleArrayLengthIndex]);
+  }
+
+  var currentIndex = doubledArray.length;
+  var temporaryIndex = null;
   var randomIndex = null;
 
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
-    temporaryValue = backgroundArray[currentIndex];
-    backgroundArray[currentIndex] = backgroundArray[randomIndex];
-    backgroundArray[randomIndex] = temporaryValue;
+    temporaryIndex = doubledArray[currentIndex];
+    doubledArray[currentIndex] = doubledArray[randomIndex];
+    doubledArray[randomIndex] = temporaryIndex;
   }
-  return backgroundArray;
+
+  return doubledArray;
 }
 
+// Resets the game by removing all the original HTML elements and replacing them with new ones.
 function destroyCards() {
-  $('.row').html('');
+  cardObject.row.html('');
 }
