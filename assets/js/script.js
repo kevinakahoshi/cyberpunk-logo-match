@@ -31,7 +31,10 @@ var domElements = {
   'modalContainer' : $('.modalContainer'),
   'enterModalContainer' : $('.enterModalContainer'),
   'largeText' : $('.largeText'),
-  'name' : $('#name')
+  'name' : $('#name'),
+  'countDown' : 150,
+  'countDownInterval' : null,
+  'countDownTimer' : $('.countDownTimer')
 }
 
 var backgroundArray = [
@@ -45,8 +48,6 @@ var backgroundArray = [
   'mcDonalds',
   'zhi',
 ];
-
-var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
 
@@ -67,29 +68,59 @@ incorrectSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/G
 var selectionSound = new Audio();
 selectionSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
 
+var tenSecondSound = new Audio();
+tenSecondSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_12.wav';
+tenSecondSound.loop = true;
+
 function initializeApp() {
   domElements.resetButton.on('click', resetGame);
   domElements.submitButton.on('click', getName)
   domElements.startButton.on('click', startGame);
+  domElements.input.on('keypress', pressedEnter);
 }
 
 function getName() {
   var inputValue = $('input').val();
   domElements.inputValue = inputValue;
   domElements.name.text(domElements.inputValue);
-  domElements.modalHeading.text('Unauthorized Access');
-  domElements.modalHeadingBox.css('background', '#b10606').fadeIn('fast');
+  domElements.modalHeading.text('Unauthorized Access').css('color', '#4c0707').fadeIn('fast');
+  domElements.modalHeadingBox.css('background', '#a00000').fadeIn('fast');
   domElements.input.addClass('hidden').fadeOut('fast');
   domElements.submitButton.addClass('hidden').fadeOut('fast');
   domElements.largeText.removeClass('hidden').fadeIn('fast');
   domElements.startButton.removeClass('hidden').fadeIn('fast');
 }
 
+function pressedEnter(enter) {
+  if (enter.which === 13) {
+    getName();
+  }
+}
+
 function startGame() {
   backgroundAudio.play();
   domElements.enterModalContainer.addClass('hidden');
+  domElements.countDownInterval = setInterval(timer, 100);
   $('.allBodyContent').removeClass('hidden blur');
   generateCards();
+}
+
+function timer() {
+  if (domElements.countDown <= 0) {
+    clearInterval(domElements.countDownInterval);
+  }
+
+  if (domElements.countDown <= 100) {
+    tenSecondSound.play();
+    domElements.countDownTimer.css('color', '#a00000');
+  }
+
+  if (domElements.countDown === 0) {
+    tenSecondSound.pause();
+  }
+
+  domElements.countDownTimer.html((domElements.countDown / 10).toFixed(1));
+  --domElements.countDown;
 }
 
 function handleCardClick(event) {
@@ -135,7 +166,7 @@ function handleCardClick(event) {
           cardObject.firstCardParent = null;
           cardObject.secondCardParent = null;
           cardObject.allCards.on('click', handleCardClick);
-        }, 1500);
+        }, 500);
       }
       displayStats();
     }
