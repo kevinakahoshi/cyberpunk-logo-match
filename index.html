@@ -54,11 +54,15 @@
     </div>
     <div class="enterModalContainer">
       <div class="modalBox">
-        <h1>Enter your name</h1>
-        <input type="text" class="nameInput">
-        <p class="largeText">Hello #.  You have stumbled upon something you shouldn't have.  You have 60 seconds to complete the challenge before your cyberware becomes infected.</p>
-        <button class="submitButton">Submit</button>
-        <button class="startButton">Start</button>
+        <div class="headingBox">
+          <h1 class="modalHeading">Enter your name</h1>
+        </div>
+        <div class="modalContent">
+          <input type="text" class="nameInput" placeholder="First Name // Last Name">
+          <p class="largeText hidden">Hello <span id="name"></span>.  You have stumbled upon something you shouldn't have.  You have 60 seconds to complete the challenge before your cyberware becomes infected.</p>
+          <button class="submitButton">Submit</button>
+          <button class="startButton hidden">Start</button>
+        </div>
       </div>
     </div>
     <div class="modalContainer hidden">

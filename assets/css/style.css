@@ -20,6 +20,13 @@ button, input {
   width: 100%;
   font-family: 'Roboto Mono',monospace;
   font-size: 1rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+button {
+  margin-bottom: 0px;
+  text-transform: uppercase;
 }
 
 button:focus, input:focus {
@@ -114,6 +121,12 @@ video {
   margin: 20px;
   padding: 0px;
   position: relative;
+  transition: 100ms linear;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 30px rgba(255,255,255,.5);
 }
 
 .cardBack {
@@ -123,7 +136,6 @@ video {
   width: 100%;
   border-radius: 5px;
   border: 3px solid #fff;
-  transition: .3s all;
 }
 
 .cardFront {
@@ -174,8 +186,9 @@ video {
   width: 100%;
   height: 100vh;
   top: 0;
+  border-radius: 6px;
   padding: 20px;
-  position: absolute;
+  position: fixed;
   display: flex;
   background: rgba(0, 0, 0, .75);
   transition: .3s all;
@@ -185,9 +198,23 @@ video {
   margin: auto;
   background: #fff;
   border-radius: 5px;
-  padding: 20px;
   transition: .3s all;
   width: 650px;
+}
+
+.headingBox, .modalContent {
+  padding: 20px;
+}
+
+.headingBox {
+  border-radius: 5px 5px 0px 0px;
+  background: #0f1735;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.modalContent {
+  border-radius: 0px 0px 5px 5px;
 }
 
 .hidden {
@@ -225,6 +252,11 @@ h6 {
   font-size: 2rem;
   text-align: center;
   margin: auto;
+}
+
+.largeText {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .resetButton, .startButton {

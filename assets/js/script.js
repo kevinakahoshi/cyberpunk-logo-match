@@ -23,12 +23,15 @@ var statsArea = {
 var domElements = {
   'input' : $('input'),
   'inputValue' : $('input').val(),
-  'submitButton' : $('submitButton'),
+  'submitButton' : $('.submitButton'),
   'startButton' : $('.startButton'),
   'resetButton' : $('.resetButton'),
+  'modalHeading' : $('.modalHeading'),
+  'modalHeadingBox' : $('.headingBox'),
   'modalContainer' : $('.modalContainer'),
   'enterModalContainer' : $('.enterModalContainer'),
-  'largeText' : $('.largeText')
+  'largeText' : $('.largeText'),
+  'name' : $('#name')
 }
 
 var backgroundArray = [
@@ -42,6 +45,10 @@ var backgroundArray = [
   'mcDonalds',
   'zhi',
 ];
+
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+var backgroundArrayCopy = shuffleArray(backgroundArray);
 
 var backgroundAudio = new Audio();
 backgroundAudio.volume = .7;
@@ -60,20 +67,29 @@ incorrectSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/G
 var selectionSound = new Audio();
 selectionSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
 
-var backgroundArrayCopy = shuffleArray(backgroundArray);
-
 function initializeApp() {
   domElements.resetButton.on('click', resetGame);
+  domElements.submitButton.on('click', getName)
   domElements.startButton.on('click', startGame);
 }
 
-function startGame() {
+function getName() {
   var inputValue = $('input').val();
   domElements.inputValue = inputValue;
-  generateCards();
+  domElements.name.text(domElements.inputValue);
+  domElements.modalHeading.text('Unauthorized Access');
+  domElements.modalHeadingBox.css('background', '#b10606').fadeIn('fast');
+  domElements.input.addClass('hidden').fadeOut('fast');
+  domElements.submitButton.addClass('hidden').fadeOut('fast');
+  domElements.largeText.removeClass('hidden').fadeIn('fast');
+  domElements.startButton.removeClass('hidden').fadeIn('fast');
+}
+
+function startGame() {
   backgroundAudio.play();
   domElements.enterModalContainer.addClass('hidden');
   $('.allBodyContent').removeClass('hidden blur');
+  generateCards();
 }
 
 function handleCardClick(event) {
@@ -142,8 +158,6 @@ function displayStats() {
 
 // Resets game/stats
 function resetGame() {
-
-
   statsArea.matches = null;
   statsArea.attempts = null;
   statsArea.games_played++;
@@ -167,9 +181,9 @@ function generateCards() {
     var generateCardBack = $('<div>');
     var generateCardFront = $('<div>');
 
-    generateParentCardDiv.addClass('card containerContents');
+    generateParentCardDiv.addClass('card containerContents').attr('loading', 'lazy');
     generateCardBack.addClass('cardBack background');
-    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]).attr('loading', 'lazy');
+    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]);
 
     cardObject.row.append(generateParentCardDiv);
     generateParentCardDiv.append(generateCardFront);
