@@ -20,11 +20,15 @@ var statsArea = {
   'dynamicAccuracy' : $('.dynamicAccuracy h6')
 }
 
-var modalObject = {
+var domElements = {
+  'input' : $('input'),
+  'inputValue' : $('input').val(),
+  'submitButton' : $('submitButton'),
+  'startButton' : $('.startButton'),
+  'resetButton' : $('.resetButton'),
   'modalContainer' : $('.modalContainer'),
   'enterModalContainer' : $('.enterModalContainer'),
-  'startButton' : $('.startButton'),
-  'resetButton' : $('.resetButton')
+  'largeText' : $('.largeText')
 }
 
 var backgroundArray = [
@@ -38,23 +42,6 @@ var backgroundArray = [
   'mcDonalds',
   'zhi',
 ];
-
-// var audioObject = {
-//   'backgroundAudio' : {
-//     'type': new Audio(),
-//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/212025_71257-lq.mp3',
-//     'loop' : true
-//   },
-//   'selection' : {
-//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Select_22.wav'
-//   },
-//   'correct' : {
-//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Notification_03.wav'
-//   },
-//   'incorrect' : {
-//     'src' : '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav'
-//   }
-// }
 
 var backgroundAudio = new Audio();
 backgroundAudio.volume = .7;
@@ -76,14 +63,16 @@ selectionSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/G
 var backgroundArrayCopy = shuffleArray(backgroundArray);
 
 function initializeApp() {
-  modalObject.resetButton.on('click', resetStats);
-  modalObject.startButton.on('click', startGame);
+  domElements.resetButton.on('click', resetGame);
+  domElements.startButton.on('click', startGame);
 }
 
 function startGame() {
-  cardObject.row.fadeIn(3000, generateCards);
+  var inputValue = $('input').val();
+  domElements.inputValue = inputValue;
+  generateCards();
   backgroundAudio.play();
-  modalObject.enterModalContainer.addClass('hidden');
+  domElements.enterModalContainer.addClass('hidden');
   $('.allBodyContent').removeClass('hidden blur');
 }
 
@@ -115,13 +104,15 @@ function handleCardClick(event) {
         cardObject.firstCardParent = null;
         cardObject.secondCardParent = null;
         if (statsArea.matches === statsArea.max_matches) {
-          modalObject.modalContainer.removeClass('hidden');
+          domElements.modalContainer.removeClass('hidden');
           statsArea.games_played++;
         }
       } else {
         // Removes option to click on other cards before the timeout is up
         cardObject.allCards.unbind('click');
+
         incorrectSound.play();
+
         setTimeout(function() {
           cardObject.firstCardBack.removeClass('hidden');
           cardObject.secondCardBack.removeClass('hidden');
@@ -150,20 +141,21 @@ function displayStats() {
 }
 
 // Resets game/stats
-function resetStats() {
+function resetGame() {
+
+
   statsArea.matches = null;
   statsArea.attempts = null;
   statsArea.games_played++;
   cardObject.allCards.removeClass('noMoreClicks');
   cardObject.cardBackClass.removeClass('hidden');
-  modalObject.modalContainer.addClass('hidden');
+  domElements.modalContainer.addClass('hidden');
 
   displayStats();
 
   statsArea.dynamicAttempts.text('0');
   statsArea.dynamicAccuracy.text('0.00%');
 
-  shuffleArray(backgroundArray);
   destroyCards();
   generateCards();
 }
@@ -177,7 +169,7 @@ function generateCards() {
 
     generateParentCardDiv.addClass('card containerContents');
     generateCardBack.addClass('cardBack background');
-    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]);
+    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]).attr('loading', 'lazy');
 
     cardObject.row.append(generateParentCardDiv);
     generateParentCardDiv.append(generateCardFront);
@@ -217,4 +209,5 @@ function shuffleArray(backgroundArray) {
 // Resets the game by removing all the original HTML elements and replacing them with new ones.
 function destroyCards() {
   cardObject.row.html('');
+  backgroundArrayCopy = shuffleArray(backgroundArray);
 }
