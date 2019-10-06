@@ -142,8 +142,7 @@ function displayStats() {
 
 // Resets game/stats
 function resetGame() {
-  debugger;
-  destroyCards();
+
 
   statsArea.matches = null;
   statsArea.attempts = null;
@@ -157,7 +156,7 @@ function resetGame() {
   statsArea.dynamicAttempts.text('0');
   statsArea.dynamicAccuracy.text('0.00%');
 
-  shuffleArray(backgroundArray);
+  destroyCards();
   generateCards();
 }
 
@@ -170,7 +169,7 @@ function generateCards() {
 
     generateParentCardDiv.addClass('card containerContents');
     generateCardBack.addClass('cardBack background');
-    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]);
+    generateCardFront.addClass('cardFront background ' + backgroundArrayCopy[numberOfCardsIndex]).attr('loading', 'lazy');
 
     cardObject.row.append(generateParentCardDiv);
     generateParentCardDiv.append(generateCardFront);
@@ -210,5 +209,5 @@ function shuffleArray(backgroundArray) {
 // Resets the game by removing all the original HTML elements and replacing them with new ones.
 function destroyCards() {
   cardObject.row.html('');
-
+  backgroundArrayCopy = shuffleArray(backgroundArray);
 }
