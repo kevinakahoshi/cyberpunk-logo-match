@@ -33,6 +33,7 @@ var statsArea = {
 }
 
 var domElements = {
+  'allBodyContent' : $('.allBodyContent'),
   'input' : $('input'),
   'inputValue' : $('input').val(),
   'submitButton' : $('.submitButton'),
@@ -52,6 +53,8 @@ var domElements = {
   'time' : $('.time'),
   'accuracy' : $('.accuracy'),
   'threshold' : $('.threshold'),
+  'videoBackground' : $('.videoBackground'),
+  'staticBackground' : $('.staticBackground')
 }
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
@@ -101,13 +104,13 @@ function getName() {
   if (inputValue.length > 0) {
     domElements.inputValue = inputValue;
     domElements.name.text(domElements.inputValue);
-    domElements.modalHeading.text('Access Denied // Unauthorized User').fadeIn('fast');
-    domElements.modalHeadingBox.addClass('accessDenied').fadeIn('fast');
+    domElements.modalHeading.text('Access Denied // Unauthorized User');
+    domElements.modalHeadingBox.addClass('accessDenied');
     domElements.startingText.removeClass('hidden');
-    domElements.input.addClass('hidden').fadeOut('fast');
-    domElements.submitButton.addClass('hidden').fadeOut('fast');
-    domElements.largeText.removeClass('hidden').fadeIn('fast');
-    domElements.startButton.removeClass('hidden').fadeIn('fast');
+    domElements.input.addClass('hidden');
+    domElements.submitButton.addClass('hidden');
+    domElements.largeText.removeClass('hidden');
+    domElements.startButton.removeClass('hidden');
     clickSounds.play();
   } else {
     domElements.modalHeading.text('Invalid Entry // No Input');
@@ -120,7 +123,7 @@ function getName() {
 function startGame() {
   domElements.enterModalContainer.addClass('hidden');
   domElements.countDownInterval = setInterval(timer, 100);
-  $('.allBodyContent').removeClass('hidden blur');
+  domElements.allBodyContent.removeClass('hidden blur');
 
   clickSounds.play();
   generateCards();
@@ -149,7 +152,10 @@ function timer() {
     domElements.finishingText.append(errorTag.text(errorMessage));
     domElements.time.text('Time: ' + domElements.countDownValue.toFixed(1) + ' Seconds');
     domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
-    domElements.threshold.text('')
+    domElements.threshold.text('');
+    domElements.allBodyContent.addClass('hidden');
+    domElements.videoBackground.addClass('hidden');
+    domElements.staticBackground.removeClass('hidden');
     return;
   }
 
@@ -178,7 +184,7 @@ function handleCardClick(event) {
     cardObject.firstCardParent = theCard;
     cardObject.firstCardFront = cardObject.firstCardParent.find('.cardFront').css('background-image');
     cardObject.firstCardBack = theCard.find('.cardBack');
-    cardObject.firstCardBack.addClass('hidden').fadeOut('fast');
+    cardObject.firstCardBack.addClass('hidden');
     selectionSound.play();
   } else {
     cardObject.secondCardParent = theCard;
@@ -189,7 +195,7 @@ function handleCardClick(event) {
       statsArea.attempts++;
       cardObject.secondCardFront = $(event.currentTarget).find('.cardFront').css('background-image');
       cardObject.secondCardBack = theCard.find('.cardBack');
-      cardObject.secondCardBack.addClass('hidden').fadeOut('fast');
+      cardObject.secondCardBack.addClass('hidden');
       if (cardObject.firstCardFront === cardObject.secondCardFront) {
         correctSound.play();
         // Removes pointer events for cards that are matches, preventing users from clicking on the same card multiple times to break the game or cheat.
@@ -200,6 +206,7 @@ function handleCardClick(event) {
         cardObject.secondCardParent = null;
         if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) >= 50) {
           displayStats();
+          domElements.allBodyContent.addClass('hidden');
           domElements.modalContainer.removeClass('hidden');
           domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
           domElements.modalHeading.text('Access Granted //');
@@ -221,6 +228,9 @@ function handleCardClick(event) {
           domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
           domElements.threshold.text('Threshold: 50.0%');
           statsArea.games_played++;
+          domElements.allBodyContent.addClass('hidden');
+          domElements.videoBackground.addClass('hidden');
+          domElements.staticBackground.removeClass('hidden');
         }
       } else {
         // Removes option to click on other cards before the timeout is up
@@ -234,7 +244,7 @@ function handleCardClick(event) {
           cardObject.firstCardParent = null;
           cardObject.secondCardParent = null;
           cardObject.allCards.on('click', handleCardClick);
-        }, 500);
+        }, 1000);
       }
       displayStats();
     }
@@ -282,6 +292,10 @@ function resetGame() {
   domElements.countDownInterval;
   domElements.time.text('');
   domElements.accuracy.text('');
+
+  domElements.staticBackground.addClass('hidden');
+  domElements.allBodyContent.removeClass('hidden');
+  domElements.videoBackground.removeClass('hidden');
 
   destroyCards();
   generateCards();
