@@ -85,6 +85,10 @@ var tenSecondSound = new Audio();
 tenSecondSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_12.wav';
 tenSecondSound.loop = true;
 
+var endScreenSound = new Audio();
+endScreenSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_01.wav';
+endScreenSound.loop = true;
+
 function initializeApp() {
   domElements.resetButton.on('click', resetGame);
   domElements.submitButton.on('click', getName)
@@ -156,6 +160,7 @@ function timer() {
     domElements.allBodyContent.addClass('hidden');
     domElements.videoBackground.addClass('hidden');
     domElements.staticBackground.removeClass('hidden');
+    endScreenSound.play();
     return;
   }
 
@@ -213,6 +218,7 @@ function handleCardClick(event) {
           domElements.finishingText.text('Challenge Completed');
           domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
           domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
+          endScreenSound.pause();
           statsArea.games_played++;
         } else if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) < 50) {
           displayStats();
@@ -231,6 +237,7 @@ function handleCardClick(event) {
           domElements.allBodyContent.addClass('hidden');
           domElements.videoBackground.addClass('hidden');
           domElements.staticBackground.removeClass('hidden');
+          endScreenSound.play();
         }
       } else {
         // Removes option to click on other cards before the timeout is up
@@ -287,6 +294,7 @@ function resetGame() {
   domElements.countDownTimer.text('60.0');
   domElements.countDownTimer.removeClass('alertText');
   correctSound.play();
+  endScreenSound.pause();
 
   domElements.countDownValue = 600;
   domElements.countDownInterval;
