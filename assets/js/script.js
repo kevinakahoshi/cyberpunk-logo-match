@@ -44,10 +44,13 @@ var domElements = {
   'enterModalContainer' : $('.enterModalContainer'),
   'largeText' : $('.largeText'),
   'name' : $('#name'),
-  'countDown' : 600,
+  'countDownValue' : 100,
   'countDownInterval' : null,
   'countDownTimer' : $('.countDownTimer'),
-  'finishingText' : $('.finishingText')
+  'finishingText' : $('.finishingText'),
+  'time' : $('.time'),
+  'accuracy' : $('.accuracy'),
+  'threshold' : $('.threshold')
 }
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
@@ -85,6 +88,13 @@ function initializeApp() {
   domElements.input.on('keypress', pressedEnter);
 }
 
+function pressedEnter(enter) {
+  if (enter.which === 13) {
+    getName();
+    clickSounds.play();
+  }
+}
+
 function getName() {
   var inputValue = $('input').val();
   if (inputValue.length > 0) {
@@ -105,13 +115,6 @@ function getName() {
   backgroundAudio.play();
 }
 
-function pressedEnter(enter) {
-  if (enter.which === 13) {
-    getName();
-    clickSounds.play();
-  }
-}
-
 function startGame() {
   domElements.enterModalContainer.addClass('hidden');
   domElements.countDownInterval = setInterval(timer, 100);
@@ -119,32 +122,28 @@ function startGame() {
 
   clickSounds.play();
   generateCards();
-
 }
 
 function timer() {
-  --domElements.countDown;
-
-  if (domElements.countDown <= 0) {
-    clearInterval(domElements.countDownInterval);
-  }
-
-  if (domElements.countDown <= 150) {
+  if (domElements.countDownValue <= 150) {
     fifteenSecondSound.play();
   }
 
-  if (domElements.countDown <= 100) {
+  if (domElements.countDownValue <= 100) {
     tenSecondSound.play();
     domElements.countDownTimer.addClass('alertText');
   }
 
-  if (domElements.countDown === 0) {
+  if (domElements.countDownValue === 0) {
     fifteenSecondSound.pause();
     tenSecondSound.pause();
     domElements.modalContainer.removeClass('hidden');
     domElements.modalHeadingBox.addClass('accessDenied');
     domElements.modalHeading.text('Access Denied // Termination Process Initiated')
     domElements.finishingText.text('Out of time.  Goodbye.');
+    domElements.time.text('Time: ' + domElements.countDownValue);
+    domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
+    domElements.threshold.text('')
     return;
   }
 
@@ -154,7 +153,16 @@ function timer() {
     return;
   }
 
-  domElements.countDownTimer.text((domElements.countDown / 10).toFixed(1));
+  if (domElements.countDownValue <= 0) {
+    domElements.countDownValue = 0;
+    fifteenSecondSound.pause();
+    tenSecondSound.pause();
+    return;
+  }
+
+  domElements.countDownValue--;
+
+  domElements.countDownTimer.text((domElements.countDownValue / 10).toFixed(1));
 }
 
 function handleCardClick(event) {
@@ -189,12 +197,17 @@ function handleCardClick(event) {
           domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
           domElements.modalHeading.text('Access Granted');
           domElements.finishingText.text('Challenge Completed');
+          domElements.time.text('Time Remaining: ' + ((600 - domElements.countDownValue).toFixed(1)) + ' Seconds');
+          domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
           statsArea.games_played++;
         } else if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) < 50) {
           domElements.modalContainer.removeClass('hidden');
           domElements.modalHeadingBox.removeClass('accessGranted').addClass('accessDenied');
           domElements.modalHeading.text('Access Denied');
           domElements.finishingText.text('Humanoid Detected: Accuracy below threshold.  Termination process initiated.');
+          domElements.time.text('Time Remaining: ' + ((600 - domElements.countDownValue).toFixed(1)) + ' Seconds');
+          domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
+          domElements.threshold.text('Threshold: 50.0%');
           statsArea.games_played++;
         }
       } else {
@@ -239,6 +252,12 @@ function resetGame() {
   cardObject.cardBackClass.removeClass('hidden');
   domElements.modalContainer.addClass('hidden');
 
+
+  if (cardObject.firstCardFront !== null) {
+    cardObject.firstCardBack.removeClass('hidden');
+    cardObject.firstCardParent = null;
+  }
+
   displayStats();
 
   statsArea.dynamicAttempts.text('0');
@@ -247,13 +266,10 @@ function resetGame() {
   domElements.countDownTimer.removeClass('alertText');
   correctSound.play();
 
-  if (domElements.countDown === 0) {
-    setInterval(timer, 100);
-  } else {
-    timer();
-  }
-
-  domElements.countDown = 600;
+  domElements.countDownValue = 100;
+  domElements.countDownInterval;
+  domElements.time.text('');
+  domElements.accuracy.text('');
 
   destroyCards();
   generateCards();
