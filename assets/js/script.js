@@ -54,7 +54,8 @@ var domElements = {
   'accuracy' : $('.accuracy'),
   'threshold' : $('.threshold'),
   'videoBackground' : $('.videoBackground'),
-  'staticBackground' : $('.staticBackground')
+  'staticBackground' : $('.staticBackground'),
+  'colorOverlay' : $('.colorOverlay')
 }
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
@@ -88,6 +89,10 @@ tenSecondSound.loop = true;
 var endScreenSound = new Audio();
 endScreenSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_01.wav';
 endScreenSound.loop = true;
+
+var hoverAudioElement = new Audio();
+hoverAudioElement.volume = .5;
+hoverAudioElement.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_11.wav';
 
 function initializeApp() {
   domElements.resetButton.on('click', resetGame);
@@ -160,6 +165,7 @@ function timer() {
     domElements.allBodyContent.addClass('hidden');
     domElements.videoBackground.addClass('hidden');
     domElements.staticBackground.removeClass('hidden');
+    domElements.colorOverlay.removeClass('hidden');
     endScreenSound.play();
     return;
   }
@@ -237,6 +243,7 @@ function handleCardClick(event) {
           domElements.allBodyContent.addClass('hidden');
           domElements.videoBackground.addClass('hidden');
           domElements.staticBackground.removeClass('hidden');
+          domElements.colorOverlay.removeClass('hidden');
           endScreenSound.play();
         }
       } else {
@@ -301,6 +308,7 @@ function resetGame() {
   domElements.time.text('');
   domElements.accuracy.text('');
 
+  domElements.colorOverlay.addClass('hidden');
   domElements.staticBackground.addClass('hidden');
   domElements.allBodyContent.removeClass('hidden');
   domElements.videoBackground.removeClass('hidden');
@@ -328,6 +336,7 @@ function generateCards() {
   cardObject.allCards = $('.card');
   cardObject.cardBackClass = $('.cardBack');
   cardObject.allCards.on('click', handleCardClick);
+  cardObject.allCards.on('mouseover', hoverSounds);
 }
 
 // Function takes in array, doubles the values within the array, and returns a shuffled version.
@@ -359,4 +368,10 @@ function shuffleArray(backgroundArray) {
 function destroyCards() {
   cardObject.row.html('');
   backgroundArrayCopy = shuffleArray(backgroundArray);
+}
+
+// Mouse Over Sounds
+function hoverSounds() {
+  hoverAudioElement.currentTime = 0;
+  hoverAudioElement.play();
 }

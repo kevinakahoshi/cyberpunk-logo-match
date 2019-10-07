@@ -155,6 +155,8 @@ video {
 .militechLogo {
   display: block;
   margin: auto;
+  width: 100%;
+  max-width: 800px;
 }
 
 .allure {
@@ -203,6 +205,7 @@ video {
   display: flex;
   background: rgba(0, 0, 0, .75);
   transition: .3s all;
+  z-index: 1;
 }
 
 .modalBox {
@@ -233,6 +236,12 @@ video {
 .modalContent h3 {
   text-align: left;
   color: #000;
+}
+
+.colorOverlay {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 0, 0, .5);
 }
 
 .hidden {
@@ -272,7 +281,7 @@ h4 {
 }
 
 h6 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   text-align: center;
   margin: auto;
 }
