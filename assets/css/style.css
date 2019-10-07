@@ -291,6 +291,14 @@ h6 {
   color: #a00000;
 }
 
+.borderGreen {
+  border-color: #95d07c;
+}
+
+.borderRed {
+  border-color: #a00000;
+}
+
 .largeText {
   font-size: 1.2rem;
   line-height: 2rem;
