@@ -62,37 +62,37 @@ var backgroundArrayCopy = shuffleArray(backgroundArray);
 
 var backgroundAudio = new Audio();
 backgroundAudio.volume = .7;
-backgroundAudio.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/212025_71257-lq.mp3';
+backgroundAudio.src = './assets/media/audio/212025_71257-lq.mp3';
 backgroundAudio.loop = true;
 
 var clickSounds = new Audio();
-clickSounds.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
+clickSounds.src = './assets/media/audio/GUI_Scroll_Sound_8.wav';
 
 var correctSound = new Audio();
-correctSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Notification_03.wav';
+correctSound.src = './assets/media/audio/GUI_Notification_03.wav';
 
 var incorrectSound = new Audio();
-incorrectSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_30.wav';
+incorrectSound.src = './assets/media/audio/GUI_Scroll_Sound_30.wav';
 
 var selectionSound = new Audio();
-selectionSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
+selectionSound.src = './assets/media/audio/GUI_Scroll_Sound_8.wav';
 
 var fifteenSecondSound = new Audio();
-fifteenSecondSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_13.wav';
+fifteenSecondSound.src = './assets/media/audio/GUI_Tally_Up_13.wav';
 fifteenSecondSound.volume = .25;
 fifteenSecondSound.loop = true;
 
 var tenSecondSound = new Audio();
-tenSecondSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_12.wav';
+tenSecondSound.src = './assets/media/audio/GUI_Tally_Up_12.wav';
 tenSecondSound.loop = true;
 
 var endScreenSound = new Audio();
-endScreenSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_01.wav';
+endScreenSound.src = './assets/media/audio/GUI_Tally_Up_01.wav';
 endScreenSound.loop = true;
 
 var hoverAudioElement = new Audio();
 hoverAudioElement.volume = .5;
-hoverAudioElement.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_11.wav';
+hoverAudioElement.src = './assets/media/audio/GUI_Scroll_Sound_11.wav';
 
 function initializeApp() {
   domElements.resetButton.on('click', resetGame);
