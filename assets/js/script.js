@@ -44,13 +44,14 @@ var domElements = {
   'enterModalContainer' : $('.enterModalContainer'),
   'largeText' : $('.largeText'),
   'name' : $('#name'),
-  'countDownValue' : 100,
+  'countDownValue' : 600,
   'countDownInterval' : null,
   'countDownTimer' : $('.countDownTimer'),
+  'startingText' : $('.startingText'),
   'finishingText' : $('.finishingText'),
   'time' : $('.time'),
   'accuracy' : $('.accuracy'),
-  'threshold' : $('.threshold')
+  'threshold' : $('.threshold'),
 }
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
@@ -102,6 +103,7 @@ function getName() {
     domElements.name.text(domElements.inputValue);
     domElements.modalHeading.text('Access Denied // Unauthorized User').fadeIn('fast');
     domElements.modalHeadingBox.addClass('accessDenied').fadeIn('fast');
+    domElements.startingText.removeClass('hidden');
     domElements.input.addClass('hidden').fadeOut('fast');
     domElements.submitButton.addClass('hidden').fadeOut('fast');
     domElements.largeText.removeClass('hidden').fadeIn('fast');
@@ -135,13 +137,17 @@ function timer() {
   }
 
   if (domElements.countDownValue === 0) {
+    var errorTag = $('<h3>');
+    var errorMessage = 'Error: Out of Time';
+    errorTag.addClass('finishingText');
     fifteenSecondSound.pause();
     tenSecondSound.pause();
     domElements.modalContainer.removeClass('hidden');
     domElements.modalHeadingBox.addClass('accessDenied');
     domElements.modalHeading.text('Access Denied // Termination Process Initiated')
-    domElements.finishingText.text('Out of time.  Goodbye.');
-    domElements.time.text('Time: ' + domElements.countDownValue);
+    domElements.finishingText.text('User: ' + domElements.name.text());
+    domElements.finishingText.append(errorTag.text(errorMessage));
+    domElements.time.text('Time: ' + domElements.countDownValue.toFixed(1) + ' Seconds');
     domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
     domElements.threshold.text('')
     return;
@@ -172,7 +178,7 @@ function handleCardClick(event) {
     cardObject.firstCardParent = theCard;
     cardObject.firstCardFront = cardObject.firstCardParent.find('.cardFront').css('background-image');
     cardObject.firstCardBack = theCard.find('.cardBack');
-    cardObject.firstCardBack.addClass('hidden');
+    cardObject.firstCardBack.addClass('hidden').fadeOut('fast');
     selectionSound.play();
   } else {
     cardObject.secondCardParent = theCard;
@@ -183,7 +189,7 @@ function handleCardClick(event) {
       statsArea.attempts++;
       cardObject.secondCardFront = $(event.currentTarget).find('.cardFront').css('background-image');
       cardObject.secondCardBack = theCard.find('.cardBack');
-      cardObject.secondCardBack.addClass('hidden');
+      cardObject.secondCardBack.addClass('hidden').fadeOut('fast');
       if (cardObject.firstCardFront === cardObject.secondCardFront) {
         correctSound.play();
         // Removes pointer events for cards that are matches, preventing users from clicking on the same card multiple times to break the game or cheat.
@@ -193,19 +199,25 @@ function handleCardClick(event) {
         cardObject.firstCardParent = null;
         cardObject.secondCardParent = null;
         if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) >= 50) {
+          displayStats();
           domElements.modalContainer.removeClass('hidden');
           domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
-          domElements.modalHeading.text('Access Granted');
+          domElements.modalHeading.text('Access Granted //');
           domElements.finishingText.text('Challenge Completed');
-          domElements.time.text('Time Remaining: ' + ((600 - domElements.countDownValue).toFixed(1)) + ' Seconds');
+          domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
           domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
           statsArea.games_played++;
         } else if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) < 50) {
+          displayStats();
+          var errorTag = $('<h3>');
+          var errorMessage = 'Error: Humanoid Detected - Accuracy Below Threshold';
+          errorTag.addClass('finishingText');
           domElements.modalContainer.removeClass('hidden');
           domElements.modalHeadingBox.removeClass('accessGranted').addClass('accessDenied');
-          domElements.modalHeading.text('Access Denied');
-          domElements.finishingText.text('Humanoid Detected: Accuracy below threshold.  Termination process initiated.');
-          domElements.time.text('Time Remaining: ' + ((600 - domElements.countDownValue).toFixed(1)) + ' Seconds');
+          domElements.modalHeading.text('Access Denied // Termination Process Initiated');
+          domElements.finishingText.text('User: ' + domElements.name.text());
+          domElements.finishingText.append(errorTag.text(errorMessage))
+          domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
           domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
           domElements.threshold.text('Threshold: 50.0%');
           statsArea.games_played++;
@@ -266,7 +278,7 @@ function resetGame() {
   domElements.countDownTimer.removeClass('alertText');
   correctSound.play();
 
-  domElements.countDownValue = 100;
+  domElements.countDownValue = 600;
   domElements.countDownInterval;
   domElements.time.text('');
   domElements.accuracy.text('');

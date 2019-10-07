@@ -132,7 +132,7 @@ video {
 }
 
 .cardBack {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/lfz-card-2.jpg');
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/militechCard.jpg');
   position: absolute;
   height: 100%;
   width: 100%;
@@ -148,12 +148,17 @@ video {
   border: 3px solid #fff;
 }
 
+.militechLogo {
+  display: block;
+  margin: auto;
+}
+
 .allure {
   background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Allure-Systems-Corporation.jpg');
 }
 
 .alphabet {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Alphabet.png');
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Alphabet.jpg');
 }
 
 .amazon {
@@ -161,7 +166,7 @@ video {
 }
 
 .blackMesa {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Black-Mesa.png');
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Black-Mesa.jpg');
 }
 
 .disney {
@@ -169,7 +174,7 @@ video {
 }
 
 .gila {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Gila.png');
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Gila.jpg');
 }
 
 .mastercard {
@@ -177,11 +182,11 @@ video {
 }
 
 .mcDonalds {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/McDonalds.png');
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/McDonalds.jpg');
 }
 
 .zhi {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/ZHI.png');
+  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/ZHI.jpg');
 }
 
 .modalContainer, .enterModalContainer {
@@ -323,7 +328,7 @@ h6 {
 
 /* iPad */
 @media (max-width: 768px) {
-  .mainContainer, aside, main {
+  .mainContainer, aside, .main {
     max-width: 100%;
     width: 100%;
   }
