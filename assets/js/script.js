@@ -39,6 +39,7 @@ var domElements = {
   'submitButton' : $('.submitButton'),
   'startButton' : $('.startButton'),
   'resetButton' : $('.resetButton'),
+  'modalBox' : $('.modalBox'),
   'modalHeading' : $('.modalHeading'),
   'modalHeadingBox' : $('.headingBox'),
   'modalContainer' : $('.modalContainer'),
@@ -113,6 +114,7 @@ function getName() {
   if (inputValue.length > 0) {
     domElements.inputValue = inputValue;
     domElements.name.text(domElements.inputValue);
+    domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow');
     domElements.modalHeading.text('Access Denied // Unauthorized User');
     domElements.modalHeadingBox.addClass('accessDenied');
     domElements.startingText.removeClass('hidden');
@@ -120,9 +122,11 @@ function getName() {
     domElements.submitButton.addClass('hidden');
     domElements.largeText.removeClass('hidden');
     domElements.startButton.removeClass('hidden');
+
     clickSounds.play();
   } else {
     domElements.modalHeading.text('Invalid Entry // No Input');
+    domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
     domElements.modalHeadingBox.addClass('accessDenied');
     incorrectSound.play();
   }
@@ -154,8 +158,11 @@ function timer() {
     errorTag.addClass('finishingText');
     fifteenSecondSound.pause();
     tenSecondSound.pause();
+    endScreenSound.play();
+
     domElements.modalContainer.removeClass('hidden');
     domElements.modalHeadingBox.addClass('accessDenied');
+    domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
     domElements.modalHeading.text('Access Denied // Termination Process Initiated')
     domElements.finishingText.text('User: ' + domElements.name.text());
     domElements.finishingText.append(errorTag.text(errorMessage));
@@ -166,7 +173,7 @@ function timer() {
     domElements.videoBackground.addClass('hidden');
     domElements.staticBackground.removeClass('hidden');
     domElements.colorOverlay.removeClass('hidden');
-    endScreenSound.play();
+
     return;
   }
 
@@ -218,6 +225,7 @@ function handleCardClick(event) {
         if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) >= 50) {
           displayStats();
           domElements.allBodyContent.addClass('hidden');
+          domElements.modalBox.removeClass('whiteGlow redGlow').addClass('greenGlow')
           domElements.modalContainer.removeClass('hidden');
           domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
           domElements.modalHeading.text('Access Granted //');
@@ -231,6 +239,7 @@ function handleCardClick(event) {
           var errorTag = $('<h3>');
           var errorMessage = 'Error: Humanoid Detected - Accuracy Below Threshold';
           errorTag.addClass('finishingText');
+          domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
           domElements.modalContainer.removeClass('hidden');
           domElements.modalHeadingBox.removeClass('accessGranted').addClass('accessDenied');
           domElements.modalHeading.text('Access Denied // Termination Process Initiated');

@@ -96,6 +96,7 @@ video {
   margin-bottom: 20px;
   border-radius: 5px;
   background: #fff;
+  box-shadow: 0px 3px 10px rgba(255, 255, 255, .2);
 }
 
 .statsBox:nth-child(4) {
@@ -128,6 +129,7 @@ video {
   position: relative;
   transition: 100ms linear;
   cursor: pointer;
+  box-shadow: 0px 3px 10px rgba(255, 255, 255, .2);
 }
 
 .card:hover {
@@ -136,7 +138,7 @@ video {
 }
 
 .cardBack {
-  background-image: url(/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/militechCard.jpg);
+  background-image: url('../media/cyberpunk_logos/edited/militechCard.jpg');
   position: absolute;
   height: 100%;
   width: 100%;
@@ -160,39 +162,39 @@ video {
 }
 
 .allure {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Allure-Systems-Corporation.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Allure-Systems-Corporation.jpg');
 }
 
 .alphabet {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Alphabet.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Alphabet.jpg');
 }
 
 .amazon {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Amazon.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Amazon.jpg');
 }
 
 .blackMesa {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Black-Mesa.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Black-Mesa.jpg');
 }
 
 .disney {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Disney.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Disney.jpg');
 }
 
 .gila {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Gila.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Gila.jpg');
 }
 
 .mastercard {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/Mastercard.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/Mastercard.jpg');
 }
 
 .mcDonalds {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/McDonalds.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/McDonalds.jpg');
 }
 
 .zhi {
-  background-image: url('/Users/kevinakahoshi/lfz/memory_match/assets/media/cyberpunk_logos/Edited/ZHI.jpg');
+  background-image: url('../media/cyberpunk_logos/edited/ZHI.jpg');
 }
 
 .modalContainer, .enterModalContainer {
@@ -274,7 +276,7 @@ h3 {
 }
 
 h4 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   text-align: center;
   color: #000;
   margin: auto;
@@ -321,6 +323,18 @@ h6 {
 
 .blur {
   filter: blur(5px);
+}
+
+.whiteGlow {
+  box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.25);
+}
+
+.greenGlow {
+  box-shadow: 0px 0px 50px rgba(40, 150, 33, 0.5);
+}
+
+.redGlow {
+  box-shadow: 0px 0px 50px rgba(142, 18, 18, 0.5)
 }
 
 /* iPad Pro */
