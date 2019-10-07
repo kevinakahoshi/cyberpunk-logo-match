@@ -221,6 +221,11 @@ video {
   border-radius: 0px 0px 5px 5px;
 }
 
+.modalContent h3 {
+  text-align: left;
+  color: #000;
+}
+
 .hidden {
   display: none;
   transition: .3s all;
