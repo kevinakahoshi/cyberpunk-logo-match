@@ -263,6 +263,24 @@ h6 {
   margin: auto;
 }
 
+.hailMilitech {
+  text-align: center;
+}
+
+.accessGranted {
+  background: #95d07c;
+  color: #1d501c;
+}
+
+.accessDenied {
+  background: #a00000;
+  color: #4c0707;
+}
+
+.alertText {
+  color: #a00000;
+}
+
 .largeText {
   font-size: 1.2rem;
   line-height: 2rem;

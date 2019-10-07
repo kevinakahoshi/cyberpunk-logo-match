@@ -1,5 +1,17 @@
 $(document).ready(initializeApp);
 
+var backgroundArray = [
+  'allure',
+  'alphabet',
+  'amazon',
+  'blackMesa',
+  'disney',
+  'gila',
+  'mastercard',
+  'mcDonalds',
+  'zhi',
+];
+
 var cardObject = {
   'firstCardParent' : null,
   'secondCardParent' : null,
@@ -14,7 +26,7 @@ var statsArea = {
   'matches' : null,
   'attempts' : null,
   'games_played' : 0,
-  'max_matches' : 9,
+  'max_matches' : backgroundArray.length,
   'dynamicGamesPlayed' : $('.dynamicGamesPlayed h6'),
   'dynamicAttempts' : $('.dynamicAttempts h6'),
   'dynamicAccuracy' : $('.dynamicAccuracy h6')
@@ -32,22 +44,11 @@ var domElements = {
   'enterModalContainer' : $('.enterModalContainer'),
   'largeText' : $('.largeText'),
   'name' : $('#name'),
-  'countDown' : 150,
+  'countDown' : 600,
   'countDownInterval' : null,
-  'countDownTimer' : $('.countDownTimer')
+  'countDownTimer' : $('.countDownTimer'),
+  'finishingText' : $('.finishingText')
 }
-
-var backgroundArray = [
-  'allure',
-  'alphabet',
-  'amazon',
-  'blackMesa',
-  'disney',
-  'gila',
-  'mastercard',
-  'mcDonalds',
-  'zhi',
-];
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
 
@@ -68,6 +69,11 @@ incorrectSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/G
 var selectionSound = new Audio();
 selectionSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Scroll_Sound_8.wav';
 
+var fifteenSecondSound = new Audio();
+fifteenSecondSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_13.wav';
+fifteenSecondSound.volume = .25;
+fifteenSecondSound.loop = true;
+
 var tenSecondSound = new Audio();
 tenSecondSound.src = '/Users/kevinakahoshi/lfz/memory_match/assets/media/audio/GUI_Tally_Up_12.wav';
 tenSecondSound.loop = true;
@@ -81,46 +87,74 @@ function initializeApp() {
 
 function getName() {
   var inputValue = $('input').val();
-  domElements.inputValue = inputValue;
-  domElements.name.text(domElements.inputValue);
-  domElements.modalHeading.text('Unauthorized Access').css('color', '#4c0707').fadeIn('fast');
-  domElements.modalHeadingBox.css('background', '#a00000').fadeIn('fast');
-  domElements.input.addClass('hidden').fadeOut('fast');
-  domElements.submitButton.addClass('hidden').fadeOut('fast');
-  domElements.largeText.removeClass('hidden').fadeIn('fast');
-  domElements.startButton.removeClass('hidden').fadeIn('fast');
+  if (inputValue.length > 0) {
+    domElements.inputValue = inputValue;
+    domElements.name.text(domElements.inputValue);
+    domElements.modalHeading.text('Access Denied // Unauthorized User').fadeIn('fast');
+    domElements.modalHeadingBox.addClass('accessDenied').fadeIn('fast');
+    domElements.input.addClass('hidden').fadeOut('fast');
+    domElements.submitButton.addClass('hidden').fadeOut('fast');
+    domElements.largeText.removeClass('hidden').fadeIn('fast');
+    domElements.startButton.removeClass('hidden').fadeIn('fast');
+    clickSounds.play();
+  } else {
+    domElements.modalHeading.text('Invalid Entry // No Input');
+    domElements.modalHeadingBox.addClass('accessDenied');
+    incorrectSound.play();
+  }
+  backgroundAudio.play();
 }
 
 function pressedEnter(enter) {
   if (enter.which === 13) {
     getName();
+    clickSounds.play();
   }
 }
 
 function startGame() {
-  backgroundAudio.play();
   domElements.enterModalContainer.addClass('hidden');
   domElements.countDownInterval = setInterval(timer, 100);
   $('.allBodyContent').removeClass('hidden blur');
+
+  clickSounds.play();
   generateCards();
+
 }
 
 function timer() {
+  --domElements.countDown;
+
   if (domElements.countDown <= 0) {
     clearInterval(domElements.countDownInterval);
   }
 
+  if (domElements.countDown <= 150) {
+    fifteenSecondSound.play();
+  }
+
   if (domElements.countDown <= 100) {
     tenSecondSound.play();
-    domElements.countDownTimer.css('color', '#a00000');
+    domElements.countDownTimer.addClass('alertText');
   }
 
   if (domElements.countDown === 0) {
+    fifteenSecondSound.pause();
     tenSecondSound.pause();
+    domElements.modalContainer.removeClass('hidden');
+    domElements.modalHeadingBox.addClass('accessDenied');
+    domElements.modalHeading.text('Access Denied // Termination Process Initiated')
+    domElements.finishingText.text('Out of time.  Goodbye.');
+    return;
   }
 
-  domElements.countDownTimer.html((domElements.countDown / 10).toFixed(1));
-  --domElements.countDown;
+  if (statsArea.matches === statsArea.max_matches) {
+    fifteenSecondSound.pause();
+    tenSecondSound.pause();
+    return;
+  }
+
+  domElements.countDownTimer.text((domElements.countDown / 10).toFixed(1));
 }
 
 function handleCardClick(event) {
@@ -150,8 +184,17 @@ function handleCardClick(event) {
         statsArea.matches++;
         cardObject.firstCardParent = null;
         cardObject.secondCardParent = null;
-        if (statsArea.matches === statsArea.max_matches) {
+        if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) >= 50) {
           domElements.modalContainer.removeClass('hidden');
+          domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
+          domElements.modalHeading.text('Access Granted');
+          domElements.finishingText.text('Challenge Completed');
+          statsArea.games_played++;
+        } else if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) < 50) {
+          domElements.modalContainer.removeClass('hidden');
+          domElements.modalHeadingBox.removeClass('accessGranted').addClass('accessDenied');
+          domElements.modalHeading.text('Access Denied');
+          domElements.finishingText.text('Humanoid Detected: Accuracy below threshold.  Termination process initiated.');
           statsArea.games_played++;
         }
       } else {
@@ -184,7 +227,7 @@ function displayStats() {
 
   statsArea.dynamicGamesPlayed.text(statsArea.games_played);
   statsArea.dynamicAttempts.text(statsArea.attempts);
-  statsArea.dynamicAccuracy.text((displayAccuracy * 100).toFixed(2) + '%');
+  statsArea.dynamicAccuracy.text((displayAccuracy * 100).toFixed(1) + '%');
 }
 
 // Resets game/stats
@@ -200,6 +243,17 @@ function resetGame() {
 
   statsArea.dynamicAttempts.text('0');
   statsArea.dynamicAccuracy.text('0.00%');
+  domElements.countDownTimer.text('60.0');
+  domElements.countDownTimer.removeClass('alertText');
+  correctSound.play();
+
+  if (domElements.countDown === 0) {
+    setInterval(timer, 100);
+  } else {
+    timer();
+  }
+
+  domElements.countDown = 600;
 
   destroyCards();
   generateCards();

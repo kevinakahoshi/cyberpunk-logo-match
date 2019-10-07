@@ -39,7 +39,7 @@
               <h6>Accuracy</h6>
             </div>
             <div class="stats dynamicAccuracy">
-              <h6>0.00%</h6>
+              <h6>0.0%</h6>
             </div>
           </div>
           <div class="statsBox">
@@ -57,21 +57,26 @@
     <div class="enterModalContainer">
       <div class="modalBox">
         <div class="headingBox">
-          <h1 class="modalHeading">Enter your name</h1>
+          <h1 class="modalHeading">Enter Username</h1>
         </div>
         <div class="modalContent">
           <input type="text" class="nameInput" placeholder="First Name // Last Name">
-          <p class="largeText hidden">Hello <span id="name"></span>.  You have stumbled upon something you shouldn't have.  You have 60 seconds to complete the challenge before your cybernetic enhancements becomes infected with malicious software.</p>
-          <p class="largeText hidden"><strong>All Hail Militech Heavy Industries</strong></p>
+          <p class="largeText hidden">Hello <span id="name"></span>.  You are not authorized to proceed.  You have 60 seconds to match our corporate sponsors before your cybernetic enhancements becomes infected with malicious software.</p>
+          <p class="largeText hidden hailMilitech"><strong>All Hail Militech Heavy Industries</strong></p>
           <button class="submitButton">Submit</button>
-          <button class="startButton hidden">Start</button>
+          <button class="startButton hidden">Initiate</button>
         </div>
       </div>
     </div>
     <div class="modalContainer hidden">
       <div class="modalBox">
-        <h1>Congratulations, you have won!</h1>
-        <button class="resetButton">Reset Game</button>
+        <div class="headingBox">
+          <h1 class="modalHeading">Access Granted</h1>
+        </div>
+        <div class="modalContent">
+          <p class="finishingText largeText"></p>
+          <button class="resetButton">Reset</button>
+        </div>
       </div>
     </div>
     <div class="videoContainer blur">
