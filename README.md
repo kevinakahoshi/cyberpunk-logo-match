@@ -1,8 +1,8 @@
-#Cyberpunk Mega-Corporation Logo Match
+# Cyberpunk Mega-Corporation Logo Match
 
 A JavaScript memory matching application.
 
-#Technologies Used
+# Technologies Used
 - JavaScript
 - jQuery
 - HTML5
