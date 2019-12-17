@@ -5,23 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cyberpunk Memory Match</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6b70c3be0e.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="./assets/js/script.js" defer></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="shortcut icon" href="./assets/media/cyberpunk_logos/favicon.jpg" type="image/x-icon">
   </head>
   <body>
     <div class="allBodyContent hidden blur">
       <header>
         <img src="./assets/media/cyberpunk_logos/militech.png" alt="Militech Logo" class="militechLogo">
-        <h2>Always watching.  All the time.</h2>
-      </header>
-      <div class="mainContainer">
-        <aside class="containerContents">
+        <div class="statsContainer">
           <div class="statsBox">
             <div class="stats">
-              <h6>Challenge Attempts</h6>
+              <h6>Attempts</h6>
             </div>
             <div class="stats dynamicGamesPlayed">
               <h6>0</h6>
@@ -29,7 +27,7 @@
           </div>
           <div class="statsBox">
             <div class="stats">
-              <h6>Match Attempts</h6>
+              <h6>Guesses</h6>
             </div>
             <div class="stats dynamicAttempts">
               <h6>0</h6>
@@ -44,15 +42,25 @@
             </div>
           </div>
           <div class="statsBox">
-            <h4 class="countDownTimer">60.0</h4>
+            <div class="stats">
+              <h6>Timer</h6>
+            </div>
+            <div class="stats dynamicCountdown">
+              <h6 class="countDownTimer">60.0</h6>
+            </div>
           </div>
-        </aside>
+        </div>
+      </header>
+      <div class="mainContainer">
         <main class="containerContents main">
           <div class="container">
             <div class="row">
             </div>
           </div>
         </main>
+      </div>
+      <div class="volumeDiv">
+        <i class="fas fa-volume-up volumeClick"></i>
       </div>
     </div>
     <div class="enterModalContainer">
