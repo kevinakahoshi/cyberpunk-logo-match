@@ -57,7 +57,10 @@ var domElements = {
   'videoBackground' : $('.videoBackground'),
   'staticBackground' : $('.staticBackground'),
   'colorOverlay' : $('.colorOverlay'),
-  'volumeClick' : $('.volumeClick')
+  'volumeDiv' : $('.volumeDiv'),
+  'volumeClick' : $('.volumeClick'),
+  'volumeOn' : $('<i class="fas fa-volume-up volumeClick"></i>'),
+  'volumeOff' : $('<i class="fas fa-volume-mute volumeClick"></i>'),
 }
 
 var audioState = {
@@ -105,7 +108,7 @@ function initializeApp() {
   domElements.submitButton.on('click', getName)
   domElements.startButton.on('click', startGame);
   domElements.input.on('keypress', pressedEnter);
-  domElements.volumeClick.on('click', toggleAudio);
+  domElements.volumeDiv.on('click', toggleAudio);
 }
 
 function pressedEnter(enter) {
@@ -118,7 +121,9 @@ function toggleAudio() {
   audioState.active = !audioState.active;
   if (audioState.active) {
     backgroundAudio.play();
+    domElements.volumeOff.replaceWith(domElements.volumeOn);
   } else {
+    domElements.volumeOn.replaceWith(domElements.volumeOff);
     backgroundAudio.pause();
     clickSounds.pause();
     correctSound.pause();
@@ -164,6 +169,9 @@ function startGame() {
   domElements.allBodyContent.removeClass('hidden blur');
   if (audioState.active) {
     clickSounds.play();
+    domElements.volumeDiv.append(domElements.volumeOn);
+  } else {
+    domElements.volumeDiv.append(domElements.volumeOff);
   }
   generateCards();
 }
@@ -184,6 +192,7 @@ function timer() {
     var errorTag = $('<h3>');
     var errorMessage = 'Error: Out of Time';
     errorTag.addClass('finishingText');
+    clearInterval(domElements.countDownInterval);
     if (audioState.active) {
       fifteenSecondSound.pause();
       tenSecondSound.pause();
@@ -360,6 +369,7 @@ function resetGame() {
 
   destroyCards();
   generateCards();
+  domElements.countDownInterval = setInterval(timer, 100);
 }
 
 // Creates cards dynamically based on the length of the array of images.  Assigns all appropriate CSS classes.

@@ -276,7 +276,7 @@ header h1 {
   text-align: center;
   margin: auto;
   color: #fff;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 h2 {
@@ -354,11 +354,12 @@ h6 {
 }
 
 .volumeDiv {
-  position: absolute;
+  position: fixed;
   bottom: 15px;
   left: 15px;
   color: #fff;
   font-size: 1.2rem;
+  cursor: pointer;
 }
 
 /* iPad Pro */
