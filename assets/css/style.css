@@ -49,9 +49,10 @@ button:focus, input:focus {
 }
 
 header {
-  width: 90%;
-  margin: auto;
   padding: 10px;
+  width: 90%;
+  height: fit-content;
+  margin: auto;
   display: flex;
 }
 
