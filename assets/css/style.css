@@ -65,7 +65,7 @@ header {
 .containerContents {
   height: 100%;
   display: inline-block;
-  padding: 20px;
+  padding: 15px;
   font-size: initial
 }
 
@@ -173,8 +173,7 @@ video {
 
 .militechLogo {
   display: block;
-  margin: auto 20px auto auto;
-  width: 100%;
+  margin: auto;
   max-width: 20vw;
 }
 
@@ -219,7 +218,7 @@ video {
   height: 100vh;
   top: 0;
   border-radius: 6px;
-  padding: 20px;
+  padding: 15px;
   position: fixed;
   display: flex;
   background: rgba(0, 0, 0, .75);
@@ -236,7 +235,7 @@ video {
 }
 
 .headingBox, .modalContent {
-  padding: 20px;
+  padding: 15px;
 }
 
 .headingBox {
@@ -329,7 +328,7 @@ h6 {
 }
 
 .resetButton, .startButton {
-  padding: 20px;
+  padding: 15px;
   width: 100%;
   font-size: 1rem;
 }
@@ -356,8 +355,8 @@ h6 {
 
 .volumeDiv {
   position: fixed;
-  bottom: 15px;
-  left: 15px;
+  bottom: 10px;
+  left: 10px;
   color: #fff;
   font-size: 1.2rem;
   cursor: pointer;
@@ -426,7 +425,6 @@ h6 {
   }
 
   .militechLogo {
-    margin: auto auto 10px auto;
     max-width: 60vw;
   }
 
