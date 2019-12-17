@@ -1,3 +1,7 @@
+html {
+  font-size: 14px;
+}
+
 body {
   margin: 0px;
   font-family: arial;
@@ -7,6 +11,12 @@ body {
   font-family: 'Roboto Mono',monospace;
   background: #000;
   display: flex;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   height: 100vh;
 }
 
@@ -15,7 +25,7 @@ body {
 }
 
 button, input {
-  padding: 20px;
+  padding: 15px;
   margin-bottom: 20px;
   width: 100%;
   font-family: 'Roboto Mono',monospace;
@@ -26,6 +36,7 @@ button, input {
 
 button {
   margin-bottom: 0px;
+  background: #fff;
   text-transform: uppercase;
 }
 
@@ -38,13 +49,16 @@ button:focus, input:focus {
 }
 
 header {
-  padding: 20px;
+  width: 90%;
+  margin: auto;
+  padding: 10px;
+  display: flex;
 }
 
 .mainContainer {
   font-size: 0px;
   display: flex;
-  max-width: 80%;
+  max-width: 90%;
   margin: auto;
 }
 
@@ -53,6 +67,12 @@ header {
   display: inline-block;
   padding: 20px;
   font-size: initial
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .container {
@@ -64,7 +84,7 @@ aside {
 }
 
 .main {
-  width: 80%;
+  width: 100%;
   padding: 0px;
 }
 
@@ -85,33 +105,29 @@ video {
 }
 
 .stats {
-  margin-bottom: 20px;
   color: #000;
   border-radius: 5px;
   text-align: center;
 }
 
 .statsBox {
-  padding: 20px;
-  margin-bottom: 20px;
+  width: 20%;
+  padding: 10px;
   border-radius: 5px;
   background: #fff;
   box-shadow: 0px 3px 10px rgba(255, 255, 255, .2);
-}
-
-.statsBox:nth-child(4) {
-  margin-bottom: 0px;
+  margin-left: 20px;
 }
 
 .row {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   font-size: 0px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
@@ -122,9 +138,9 @@ video {
 }
 
 .card {
-  width: 8vw;
-  height: 8vw;
-  margin: 20px;
+  width: 12vw;
+  height: 12vw;
+  margin: 10px;
   padding: 0px;
   position: relative;
   transition: 100ms linear;
@@ -156,9 +172,9 @@ video {
 
 .militechLogo {
   display: block;
-  margin: auto;
+  margin: auto 20px auto auto;
   width: 100%;
-  max-width: 800px;
+  max-width: 20vw;
 }
 
 .allure {
@@ -215,7 +231,7 @@ video {
   background: #fff;
   border-radius: 5px;
   transition: .3s all;
-  width: 650px;
+  width: 500px;
 }
 
 .headingBox, .modalContent {
@@ -270,7 +286,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: center;
   color: #fff;
 }
@@ -283,7 +299,7 @@ h4 {
 }
 
 h6 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
   margin: auto;
 }
@@ -337,11 +353,20 @@ h6 {
   box-shadow: 0px 0px 50px rgba(142, 18, 18, 0.5)
 }
 
+.volumeDiv {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
 /* iPad Pro */
 @media (max-width: 1375px) {
   .card {
-    width: 14vw;
-    height: 14vw;
+    width: 8.75vw;
+    height: 8.75vw;
+    margin: 5px;
   }
 
   video {
@@ -349,7 +374,12 @@ h6 {
   }
 
   h6 {
-    font-size: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .largeText {
+    font-size: .8rem;
+    line-height: 1.6rem;
   }
 }
 
@@ -372,28 +402,45 @@ h6 {
     width: 100%;
   }
 
-  .stats:nth-child(7) {
-    margin-bottom: 0px;
+  .statsBox {
+    padding: 5px;
   }
 
   .containerContents {
     height: initial;
   }
 
-  .container {
-    height: 100vh;
-  }
-
   .card {
-    width: 20vw;
-    height: 20vw;
+    width: 14vw;
+    height: 14vw;
   }
 }
 
 /* Mobile Phones */
 @media (max-width: 460px) {
+  header {
+    display: block;
+    width: 100%;
+  }
+
+  .militechLogo {
+    margin: auto auto 10px auto;
+    max-width: 60vw;
+  }
+
+  .statsContainer {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .statsBox {
+    margin: auto;
+    width: 40%;
+    margin: 5px;
+  }
+
   .card {
-    width: 30vw;
-    height: 30vw;
+    width: 23vw;
+    height: 23vw;
   }
 }

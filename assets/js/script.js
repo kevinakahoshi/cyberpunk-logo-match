@@ -56,7 +56,12 @@ var domElements = {
   'threshold' : $('.threshold'),
   'videoBackground' : $('.videoBackground'),
   'staticBackground' : $('.staticBackground'),
-  'colorOverlay' : $('.colorOverlay')
+  'colorOverlay' : $('.colorOverlay'),
+  'volumeClick' : $('.volumeClick')
+}
+
+var audioState = {
+  'active' : false
 }
 
 var backgroundArrayCopy = shuffleArray(backgroundArray);
@@ -100,12 +105,30 @@ function initializeApp() {
   domElements.submitButton.on('click', getName)
   domElements.startButton.on('click', startGame);
   domElements.input.on('keypress', pressedEnter);
+  domElements.volumeClick.on('click', toggleAudio);
 }
 
 function pressedEnter(enter) {
   if (enter.which === 13) {
     getName();
-    clickSounds.play();
+  }
+}
+
+function toggleAudio() {
+  audioState.active = !audioState.active;
+  if (audioState.active) {
+    backgroundAudio.play();
+  } else {
+    backgroundAudio.pause();
+    clickSounds.pause();
+    correctSound.pause();
+    incorrectSound.pause();
+    selectionSound.pause();
+    selectionSound.pause();
+    fifteenSecondSound.pause();
+    tenSecondSound.pause();
+    endScreenSound.pause();
+    hoverAudioElement.pause();
   }
 }
 
@@ -122,33 +145,38 @@ function getName() {
     domElements.submitButton.addClass('hidden');
     domElements.largeText.removeClass('hidden');
     domElements.startButton.removeClass('hidden');
-
-    clickSounds.play();
+    if (audioState.active) {
+      clickSounds.play();
+    }
   } else {
     domElements.modalHeading.text('Invalid Entry // No Input');
     domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
     domElements.modalHeadingBox.addClass('accessDenied');
-    incorrectSound.play();
+    if (audioState.active) {
+      incorrectSound.play();
+    }
   }
-  backgroundAudio.play();
 }
 
 function startGame() {
   domElements.enterModalContainer.addClass('hidden');
   domElements.countDownInterval = setInterval(timer, 100);
   domElements.allBodyContent.removeClass('hidden blur');
-
-  clickSounds.play();
+  if (audioState.active) {
+    clickSounds.play();
+  }
   generateCards();
 }
 
 function timer() {
-  if (domElements.countDownValue <= 150) {
+  if (domElements.countDownValue <= 150 && audioState.active) {
     fifteenSecondSound.play();
   }
 
   if (domElements.countDownValue <= 100) {
-    tenSecondSound.play();
+    if (audioState.active) {
+      tenSecondSound.play();
+    }
     domElements.countDownTimer.addClass('alertText');
   }
 
@@ -156,10 +184,11 @@ function timer() {
     var errorTag = $('<h3>');
     var errorMessage = 'Error: Out of Time';
     errorTag.addClass('finishingText');
-    fifteenSecondSound.pause();
-    tenSecondSound.pause();
-    endScreenSound.play();
-
+    if (audioState.active) {
+      fifteenSecondSound.pause();
+      tenSecondSound.pause();
+      endScreenSound.play();
+    }
     domElements.modalContainer.removeClass('hidden');
     domElements.modalHeadingBox.addClass('accessDenied');
     domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
@@ -203,7 +232,9 @@ function handleCardClick(event) {
     cardObject.firstCardFront = cardObject.firstCardParent.find('.cardFront').css('background-image');
     cardObject.firstCardBack = theCard.find('.cardBack');
     cardObject.firstCardBack.addClass('hidden');
-    selectionSound.play();
+    if (audioState.active) {
+      selectionSound.play();
+    }
   } else {
     cardObject.secondCardParent = theCard;
     // Prevents users from clicking the same card twice and breaking the game.
@@ -215,7 +246,9 @@ function handleCardClick(event) {
       cardObject.secondCardBack = theCard.find('.cardBack');
       cardObject.secondCardBack.addClass('hidden');
       if (cardObject.firstCardFront === cardObject.secondCardFront) {
-        correctSound.play();
+        if (audioState.active) {
+          correctSound.play();
+        }
         // Removes pointer events for cards that are matches, preventing users from clicking on the same card multiple times to break the game or cheat.
         cardObject.firstCardParent.addClass('noMoreClicks');
         cardObject.secondCardParent.addClass('noMoreClicks');
@@ -253,14 +286,16 @@ function handleCardClick(event) {
           domElements.videoBackground.addClass('hidden');
           domElements.staticBackground.removeClass('hidden');
           domElements.colorOverlay.removeClass('hidden');
-          endScreenSound.play();
+          if (audioState.active) {
+            endScreenSound.play();
+          }
         }
       } else {
         // Removes option to click on other cards before the timeout is up
         cardObject.allCards.unbind('click');
-
-        incorrectSound.play();
-
+        if (audioState.active) {
+          incorrectSound.play();
+        }
         setTimeout(function() {
           cardObject.firstCardBack.removeClass('hidden');
           cardObject.secondCardBack.removeClass('hidden');
@@ -309,9 +344,10 @@ function resetGame() {
   statsArea.dynamicAccuracy.text('0.00%');
   domElements.countDownTimer.text('60.0');
   domElements.countDownTimer.removeClass('alertText');
-  correctSound.play();
-  endScreenSound.pause();
-
+  if (audioState.active) {
+    correctSound.play();
+    endScreenSound.pause();
+  }
   domElements.countDownValue = 600;
   domElements.countDownInterval;
   domElements.time.text('');
@@ -382,5 +418,7 @@ function destroyCards() {
 // Mouse Over Sounds
 function hoverSounds() {
   hoverAudioElement.currentTime = 0;
-  hoverAudioElement.play();
+  if (audioState.active) {
+    hoverAudioElement.play();
+  }
 }
