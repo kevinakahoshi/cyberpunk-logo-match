@@ -174,7 +174,7 @@ video {
 
 .militechLogo {
   display: block;
-  margin: auto;
+  /* margin: auto; */
   max-width: 20vw;
   height: auto;
 }
