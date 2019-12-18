@@ -198,20 +198,23 @@ function timer() {
       tenSecondSound.pause();
       endScreenSound.play();
     }
-    domElements.modalContainer.removeClass('hidden');
-    domElements.modalHeadingBox.addClass('accessDenied');
-    domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
-    domElements.modalHeading.text('Access Denied // Termination Process Initiated')
-    domElements.finishingText.text('User: ' + domElements.name.text());
-    domElements.finishingText.append(errorTag.text(errorMessage));
-    domElements.time.text('Time: ' + domElements.countDownValue.toFixed(1) + ' Seconds');
-    domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
-    domElements.threshold.text('');
-    domElements.allBodyContent.addClass('hidden');
-    domElements.videoBackground.addClass('hidden');
-    domElements.staticBackground.removeClass('hidden');
-    domElements.colorOverlay.removeClass('hidden');
-
+    cardObject.allCards.unbind('click');
+    setTimeout(() => {
+      domElements.modalContainer.removeClass('hidden');
+      domElements.modalHeadingBox.addClass('accessDenied');
+      domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
+      domElements.modalHeading.text('Access Denied // Termination Process Initiated')
+      domElements.finishingText.text('User: ' + domElements.name.text());
+      domElements.finishingText.append(errorTag.text(errorMessage));
+      domElements.time.text('Time: ' + domElements.countDownValue.toFixed(1) + ' Seconds');
+      domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
+      domElements.threshold.text('');
+      domElements.allBodyContent.addClass('hidden');
+      domElements.videoBackground.addClass('hidden');
+      domElements.staticBackground.removeClass('hidden');
+      domElements.colorOverlay.removeClass('hidden');
+      cardObject.allCards.on('click', handleCardClick);
+    }, 3000);
     return;
   }
 
@@ -280,23 +283,25 @@ function handleCardClick(event) {
           }, 3000);
         } else if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) < 50) {
           displayStats();
-          var errorTag = $('<h3>');
-          var errorMessage = 'Error: Humanoid Detected - Accuracy Below Threshold';
-          errorTag.addClass('finishingText');
-          domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
-          domElements.modalContainer.removeClass('hidden');
-          domElements.modalHeadingBox.removeClass('accessGranted').addClass('accessDenied');
-          domElements.modalHeading.text('Access Denied // Termination Process Initiated');
-          domElements.finishingText.text('User: ' + domElements.name.text());
-          domElements.finishingText.append(errorTag.text(errorMessage))
-          domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
-          domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
-          domElements.threshold.text('Threshold: 50.0%');
-          statsArea.games_played++;
-          domElements.allBodyContent.addClass('hidden');
-          domElements.videoBackground.addClass('hidden');
-          domElements.staticBackground.removeClass('hidden');
-          domElements.colorOverlay.removeClass('hidden');
+          setTimeout(() => {
+            var errorTag = $('<h3>');
+            var errorMessage = 'Error: Humanoid Detected - Accuracy Below Threshold';
+            errorTag.addClass('finishingText');
+            domElements.modalBox.removeClass('whiteGlow greenGlow').addClass('redGlow')
+            domElements.modalContainer.removeClass('hidden');
+            domElements.modalHeadingBox.removeClass('accessGranted').addClass('accessDenied');
+            domElements.modalHeading.text('Access Denied // Termination Process Initiated');
+            domElements.finishingText.text('User: ' + domElements.name.text());
+            domElements.finishingText.append(errorTag.text(errorMessage))
+            domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
+            domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
+            domElements.threshold.text('Threshold: 50.0%');
+            statsArea.games_played++;
+            domElements.allBodyContent.addClass('hidden');
+            domElements.videoBackground.addClass('hidden');
+            domElements.staticBackground.removeClass('hidden');
+            domElements.colorOverlay.removeClass('hidden');
+          }, 3000);
           if (audioState.active) {
             endScreenSound.play();
           }
