@@ -266,16 +266,18 @@ function handleCardClick(event) {
         cardObject.secondCardParent = null;
         if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) >= 50) {
           displayStats();
-          domElements.allBodyContent.addClass('hidden');
-          domElements.modalBox.removeClass('whiteGlow redGlow').addClass('greenGlow')
-          domElements.modalContainer.removeClass('hidden');
-          domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
-          domElements.modalHeading.text('Access Granted //');
-          domElements.finishingText.text('Challenge Completed');
-          domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
-          domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
-          endScreenSound.pause();
-          statsArea.games_played++;
+          setTimeout(() => {
+            domElements.allBodyContent.addClass('hidden');
+            domElements.modalBox.removeClass('whiteGlow redGlow').addClass('greenGlow')
+            domElements.modalContainer.removeClass('hidden');
+            domElements.modalHeadingBox.removeClass('accessDenied').addClass('accessGranted');
+            domElements.modalHeading.text('Access Granted //');
+            domElements.finishingText.text('Challenge Completed');
+            domElements.time.text('Time: ' + ((600 - domElements.countDownValue) / 10) + ' Seconds');
+            domElements.accuracy.text('Accuracy: ' + statsArea.dynamicAccuracy.text());
+            endScreenSound.pause();
+            statsArea.games_played++;
+          }, 3000);
         } else if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) < 50) {
           displayStats();
           var errorTag = $('<h3>');
@@ -369,6 +371,7 @@ function resetGame() {
 
   destroyCards();
   generateCards();
+  clearInterval(domElements.countDownInterval);
   domElements.countDownInterval = setInterval(timer, 100);
 }
 
