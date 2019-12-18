@@ -174,7 +174,6 @@ video {
 
 .militechLogo {
   display: block;
-  /* margin: auto; */
   max-width: 20vw;
   height: auto;
 }
@@ -366,6 +365,10 @@ h6 {
   color: #fff;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.m-auto {
+  margin: auto;
 }
 
 /* iPad Pro */
