@@ -312,6 +312,10 @@ h6 {
   text-align: center;
 }
 
+.semi-transparent {
+  opacity: 25%;
+}
+
 .accessGranted {
   background: #95d07c;
   color: #1d501c;

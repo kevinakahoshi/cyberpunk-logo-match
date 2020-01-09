@@ -267,8 +267,8 @@ function handleCardClick(event) {
         statsArea.matches++;
         cardObject.firstCardParent = null;
         cardObject.secondCardParent = null;
+        displayStats();
         if (statsArea.matches === statsArea.max_matches && parseInt(statsArea.dynamicAccuracy.text()) >= 50) {
-          displayStats();
           setTimeout(() => {
             domElements.allBodyContent.addClass('hidden');
             domElements.modalBox.removeClass('whiteGlow redGlow').addClass('greenGlow')
@@ -439,4 +439,8 @@ function hoverSounds() {
   if (audioState.active) {
     hoverAudioElement.play();
   }
+}
+
+function revealCards() {
+  $('.cardBack').addClass('semi-transparent');
 }
